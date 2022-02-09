@@ -1,26 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <main-wrapper/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import mainWrapper from "@/components/main-wrapper";
 
 export default {
-  name: 'App',
+  name: 'BoobsRate',
   components: {
-    HelloWorld
+    mainWrapper
   }
 }
+
+
 </script>
 
 <style>
-#app {
+html, body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
