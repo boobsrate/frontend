@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body container">
     <ratingWrapper/>
     <Chat/>
   </div>
@@ -19,11 +19,5 @@ export default {
 </script>
 
 <style scoped>
- .body {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
 
 </style>

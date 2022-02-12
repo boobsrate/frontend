@@ -10,13 +10,18 @@ export default {
   name: 'BoobsRate',
   components: {
     mainWrapper
-  }
+  },
+
 }
 
 
 </script>
 
 <style>
+app {
+  height: 100vh;
+}
+
 html, body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

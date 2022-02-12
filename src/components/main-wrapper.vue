@@ -1,9 +1,16 @@
 <template>
 
-  <div class="main-wrapper">
-    <Header/>
-    <Body/>
-    <Footer/>
+  <div class="main-wrapper container-fluid">
+
+    <div class="row">
+      <Header/>
+    </div>
+
+    <div class="row">
+      <Body/>
+    </div>
+
+
   </div>
 
 </template>
@@ -12,14 +19,12 @@
 
 import Body from "@/components/body";
 import Header from "@/components/header";
-import Footer from "@/components/footer";
 
 export default {
   name: 'main-wrapper',
   components: {
     Body,
     Header,
-    Footer
   },
   props: {},
   computed: {},
@@ -39,12 +44,9 @@ export default {
 <style scoped>
 
 .main-wrapper {
-  display: flex;
-  padding: 0;
+  height: 100vh;
+  padding: 10px;
   margin: 0;
-  height: 100%;
-  width: 100%;
-  flex-direction: column;
 }
 
 </style>

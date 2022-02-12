@@ -1,5 +1,5 @@
 <template>
-  <div class="rating">
+  <div class="rating row">
     <v-card
         v-for="card_data in cards"
         :key="card_data.id"
@@ -12,6 +12,7 @@
 <script>
 import vCard from "@/components/card";
 import axios from "axios";
+import WS from "@/services/ws";
 
 export default {
   name: "rating",
@@ -39,14 +40,18 @@ export default {
 
   created() {
     this.getCards();
-    this.connection = new WebSocket("wss://tits.api.boobsrate.com/ws");
-    this.connection.onmessage = function(event) {
-      if (event.data.type === "new_rating") {
-        this.cards.find(card => card.id === event.data.tits_id).rating = event.data.new_rating;
+  },
+
+  mounted() {
+    let self = this;
+    WS.onmessage = function (event) {
+      let data = JSON.parse(event.data);
+      if (data.type === "new_rating") {
+        self.cards.find(card => card.id === data.message.tits_id).rating = data.message.new_rating;
       }
     }
-
   },
+
   methods: {
 
     getCards() {
@@ -56,17 +61,12 @@ export default {
     },
 
     voteCard(card_data) {
-      console.log(card_data);
       axios.post(
           'https://tits.api.boobsrate.com/tits/' + card_data,
           {}
-      ).then(function (response) {
-        this.cards = response.data;
-      }).catch(function (error) {
-        console.log(error);
-      }).then(
-          this.getCards
-      )
+      ).then(response => (this.cards = response.data)
+      ).catch(error => (console.log(error))
+      ).then(this.getCards)
     }
   }
 }
@@ -76,12 +76,6 @@ export default {
 <style>
 
 .rating {
-  display: flex;
-  width: 100%;
-  height: 90vh;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  padding: 10px;
 }
 </style>

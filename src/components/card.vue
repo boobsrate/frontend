@@ -1,12 +1,12 @@
 <template>
-    <div class="card">
-        <div class="card-image">
-            <img :src="card_data.url" alt="No Image">
+    <div class="card col-sm d-flex align-items-center">
+        <div class="card-image mt-auto p-2">
+          <img class="img-thumbnail" :key="card_data.id" :src="card_data.url" alt="No Image">
         </div>
-        <div class="card-rating">
+        <div class="card-rating mt-auto p-2">
             <p>Rating: {{ card_data.rating }}</p>
         </div>
-      <button class="btn btn-primary" @click="voteCard">Vote</button>
+      <button class="btn btn-primary btn-block w-100" @click="voteCard"> LIKE !</button>
     </div>
 </template>
 
@@ -32,34 +32,22 @@ export default {
       },
       },
     },
+  created() {
+  }
 }
 </script>
 
-<style>
+<style scoped>
 
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1rem;
-  margin: auto;
-  justify-items: center;
-  align-items: center;
-  flex: 0 0 50%;
+  padding: 10px;
+  margin: 10px;
 }
 
-.card-image img {
-  width: 100%;
-  object-fit: contain;
+.card .card-image {
+  background-position: center;
 }
 
-.card-image {
-  width: 100%;
-  height: 100%;
-}
 
-.btn {
-  margin: 1rem;
-}
 
 </style>
