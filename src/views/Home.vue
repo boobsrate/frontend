@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import ratingWrapper from "@/components/rating";
-import Chat from "@/components/chat";
+import ratingWrapper from "@/components/Rating";
+import Chat from "@/components/chat/Chat";
 
 export default {
-  name: "body",
+  name: "Home",
   components: {
     ratingWrapper,
     Chat

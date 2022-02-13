@@ -1,5 +1,5 @@
 <template>
-  <div class="rating row">
+  <div class="rating row justify-content-center">
     <v-card
         v-for="card_data in cards"
         :key="card_data.id"
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import vCard from "@/components/card";
+import vCard from "@/components/card/Card";
 import axios from "axios";
 import WS from "@/services/ws";
 

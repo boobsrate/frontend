@@ -1,12 +1,12 @@
 <template>
-    <div class="card col-sm d-flex align-items-center">
+    <div class="card col-sm d-flex align-items-center rounded">
         <div class="card-image mt-auto p-2">
-          <img class="img-thumbnail" :key="card_data.id" :src="card_data.url" alt="No Image">
+          <img class="img-thumbnail bg-dark border-0" :key="card_data.id" :src="card_data.url" alt="No Image">
         </div>
         <div class="card-rating mt-auto p-2">
-            <p>Rating: {{ card_data.rating }}</p>
+            <p>RAITING: {{ card_data.rating }}</p>
         </div>
-      <button class="btn btn-primary btn-block w-100" @click="voteCard"> LIKE !</button>
+      <button class="btn btn-primary btn-block w-100 border-0" @click="voteCard"> LIKE !</button>
     </div>
 </template>
 
@@ -42,12 +42,20 @@ export default {
 .card {
   padding: 10px;
   margin: 10px;
+  background: #080129;
+  width: 85%;
 }
 
 .card .card-image {
   background-position: center;
 }
 
+.card-rating {
+ color: #fffc;
+}
 
-
+.btn {
+  background: #3B2894;
+  outline-color: transparent;
+}
 </style>
