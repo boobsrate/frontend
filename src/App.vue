@@ -1,15 +1,16 @@
 <template>
-  <main-wrapper/>
+    <Header></Header>
+    <router-view></router-view>
 </template>
 
 <script>
 
-import mainWrapper from "@/components/main-wrapper";
+import Header from "@/components/includes/Header"
 
 export default {
   name: 'BoobsRate',
   components: {
-    mainWrapper
+    Header,
   },
 
 }

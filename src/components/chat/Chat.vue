@@ -13,7 +13,7 @@
 
 <script>
 
-import chat_message from "@/components/chat_message";
+import chat_message from "@/components/chat/ChatMessage";
 import WS from "@/services/ws";
 
 export default {
