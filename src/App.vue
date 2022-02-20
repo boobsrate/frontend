@@ -12,7 +12,8 @@
 <script>
 import Header from "@/components/includes/Header"
 import ConfirmModal from "@/components/modals/ConfirmModal";
-import { computed } from "vue";
+
+import {computed} from "vue";
 
 export default {
   name: 'BoobsRate',
