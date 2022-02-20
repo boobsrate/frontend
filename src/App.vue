@@ -39,7 +39,7 @@ export default {
       this.isAuth = true
     },
     cancel(close) {
-      window.location.href = 'https://www.google.com';
+      window.location.href = 'https://murrengan.ru';
       close()
     }
   },
