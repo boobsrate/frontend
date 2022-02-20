@@ -4,7 +4,7 @@
   </div>
   <div class="chat container-sm overflow-auto">
       <chat_message
-          v-for="chat_message in chat_messages"
+          v-for="chat_message in chat_messages.slice().reverse()"
           :key="chat_message.msg_id"
           :chat_message="chat_message"
       />

@@ -11,6 +11,7 @@
           <a class="nav-link" href="#">Top 25</a>
           <a class="nav-link" href="#">Top 100</a>
           <a class="nav-link" href="#">Abyss</a>
+          <a class="nav-link" href="https://murrengan.ru"> Murrengan </a>
         </div>
       </div>
     </div>
