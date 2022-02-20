@@ -38,6 +38,7 @@ export default {
       this.isAuth = true
     },
     cancel(close) {
+      window.location.href = 'https://www.google.com';
       close()
     }
   },
