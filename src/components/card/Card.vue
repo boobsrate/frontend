@@ -1,5 +1,5 @@
 <template>
-  <div class="card col-sm d-flex align-items-center rounded" @click="voteCard">
+  <div class="card" @click="voteCard">
     <div class="card-image mt-auto p-2">
       <Loader v-if="show" />
       <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isAuth.value }" :key="card_data.id" :src="card_data.url"
@@ -50,8 +50,7 @@ export default {
   background: #080129;
   width: 85%;
   cursor: pointer;
-  min-width: 500px;
-  min-height: 500px;
+  height: 75vh;
 }
 
 .card .card-image {
@@ -60,11 +59,18 @@ export default {
 
 .card-rating {
   color: #fffc;
+  height: 10%;
 }
 
 .btn {
   background: #3B2894;
   outline-color: transparent;
+}
+
+.img-thumbnail {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .img-thumbnail.blur {
@@ -73,5 +79,16 @@ export default {
   -o-filter: blur(20px);
   -ms-filter: blur(20px);
   filter: blur(20px);
+}
+
+.card-image {
+  width: 100%;
+  height: 90%;
+}
+
+@media screen and (max-width: 900px) {
+  .card {
+    height: 50vh;
+  }
 }
 </style>

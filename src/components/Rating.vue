@@ -1,12 +1,21 @@
 <template>
-  <div class="rating row justify-content-center">
-    <v-card
-        v-for="card_data in cards"
-        :key="card_data.id"
-        :card_data="card_data"
-        @voteCard="voteCard"
-        :show="show"
-    />
+  <div class="rating">
+    <div class="cards row justify-content-center">
+      <div class="card-wrap">
+        <v-card
+            :card_data="cards[0]"
+            @voteCard="voteCard"
+            :show="show"
+        />
+      </div>
+      <div class="card-wrap">
+        <v-card
+            :card_data="cards[1]"
+            @voteCard="voteCard"
+            :show="show"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -55,7 +64,6 @@ export default {
   },
 
   methods: {
-
     getCards() {
       this.show = true
       axios.get("https://tits.api.boobsrate.com/tits").then(response => {
@@ -70,9 +78,9 @@ export default {
           'https://tits.api.boobsrate.com/tits/' + card_data,
           {}
       ).then(response => {
-        this.cards = response.data
-        this.show = false
-      }
+            this.cards = response.data
+            this.show = false
+          }
       ).catch(error => (console.log(error))
       ).then(this.getCards)
     }
@@ -84,5 +92,20 @@ export default {
 <style>
 .rating {
   padding: 10px;
+  height: 100%;
+}
+
+.card-wrap {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 900px) {
+.card-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 }
 </style>
