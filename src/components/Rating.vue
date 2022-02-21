@@ -5,6 +5,7 @@
         :key="card_data.id"
         :card_data="card_data"
         @voteCard="voteCard"
+        :show="show"
     />
   </div>
 </template>
@@ -21,6 +22,7 @@ export default {
   },
   data() {
     return {
+      show: true,
       cards: [
         {
           id: "Card 1",
@@ -55,16 +57,22 @@ export default {
   methods: {
 
     getCards() {
+      this.show = true
       axios.get("https://tits.api.boobsrate.com/tits").then(response => {
         this.cards = response.data;
-      });
+        this.show = false
+      })
     },
 
     voteCard(card_data) {
+      this.show = true
       axios.post(
           'https://tits.api.boobsrate.com/tits/' + card_data,
           {}
-      ).then(response => (this.cards = response.data)
+      ).then(response => {
+        this.cards = response.data
+        this.show = false
+      }
       ).catch(error => (console.log(error))
       ).then(this.getCards)
     }
@@ -74,7 +82,6 @@ export default {
 
 
 <style>
-
 .rating {
   padding: 10px;
 }

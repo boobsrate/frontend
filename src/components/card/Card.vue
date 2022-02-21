@@ -1,20 +1,23 @@
 <template>
-  <div class="card col-sm d-flex align-items-center rounded">
+  <div class="card col-sm d-flex align-items-center rounded" @click="voteCard">
     <div class="card-image mt-auto p-2">
-      <img class="img-thumbnail bg-dark border-0" :class="{ blur: !isAuth.value }" :key="card_data.id" :src="card_data.url"
+      <Loader v-if="show" />
+      <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isAuth.value }" :key="card_data.id" :src="card_data.url"
            alt="No Image">
     </div>
     <div class="card-rating mt-auto p-2">
       <p>RAITING: {{ card_data.rating }}</p>
     </div>
-    <button class="btn btn-primary btn-block w-100 border-0" @click="voteCard"> LIKE !</button>
   </div>
 </template>
 
 <script>
+import Loader from '@/components/Loader'
+
 export default {
   name: "v-card",
   inject: ['isAuth'],
+  components: {Loader},
   methods: {
     voteCard() {
       this.$emit('vote-card', this.card_data.id);
@@ -32,6 +35,9 @@ export default {
         }
       },
     },
+    show: {
+      type: Boolean
+    }
   },
 }
 </script>
@@ -43,6 +49,9 @@ export default {
   margin: 10px;
   background: #080129;
   width: 85%;
+  cursor: pointer;
+  min-width: 500px;
+  min-height: 500px;
 }
 
 .card .card-image {
