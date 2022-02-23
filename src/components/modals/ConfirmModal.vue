@@ -75,4 +75,19 @@ button {
   padding: 0.5rem 1rem;
   margin: 0 clamp(12px, 2vw + 0.1%, 4rem);
 }
+
+@media (max-width: 720px) {
+::v-deep(.modal-container) {
+  width: 60%;
+}
+
+.modal__action {
+  display: block;
+  width: 60%;
+}
+
+button {
+  margin: 7px 0;
+}
+}
 </style>

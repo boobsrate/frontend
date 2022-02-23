@@ -41,14 +41,13 @@ export default {
 
 
   mounted() {
-    let self = this;
     WS.onmessage = function (event) {
       let data = JSON.parse(event.data);
       if (data.type === "online_users") {
-        self.setOnline(data.message.online)
+        this.setOnline(data.message.online)
       }
       if (data.type === "new_rating") {
-        self.addMessage({"msg_id": data.msg_id, "tits_id": data.message.tits_id, "new_rating": data.message.new_rating})
+        this.addMessage({"msg_id": data.msg_id, "tits_id": data.message.tits_id, "new_rating": data.message.new_rating})
       }
     }
   }
@@ -61,5 +60,4 @@ export default {
   height: 10vh;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 </style>
