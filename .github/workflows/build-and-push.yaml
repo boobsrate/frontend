@@ -40,15 +40,20 @@ jobs:
         id: extract_branch
 
       - name: setup node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
       - name: Install NPM dependencies
-        run: |
-          npm install
+        run: npm install
 
-      - name: Build NPM project
-        run: |
-          npm run build
+      - name: Build NPM project master
+        if: steps.extract_branch.outputs.branch == 'master'
+        run: npm run build
+
+      - name: Build NPM project dev
+        if: steps.extract_branch.outputs.branch != 'master'
+        run: npm run build-dev
 
       - name: Generate Docker metadata
         id: meta
