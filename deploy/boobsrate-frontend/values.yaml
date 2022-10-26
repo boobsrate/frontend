@@ -12,7 +12,9 @@ image:
     - name: BACKEND_URL
       value: "https://api.rate-tits.online"
 
-imagePullSecrets: [ ]
+imagePullSecrets:
+  name: dockerconfigjson-github-com
+
 nameOverride: ""
 fullnameOverride: ""
 
