@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: titsfrontend
+  name: titsfrontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: titsfrontend
+  template:
+    metadata:
+      labels:
+        app: titsfrontend
+    spec:
+      containers:
+        - name: titsfrontend
+          image: registry.gitlab.com/boobsrate/frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+          livenessProbe:
+            initialDelaySeconds: 30
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20Mi
+            limits:
+              cpu: 100m
+              memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: titsfrontend
+  labels:
+    app: titsfrontend
+spec:
+  ports:
+    - name: http
+      port: 8000
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: titsfrontend
+  sessionAffinity: None
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: titsfrontend
+  namespace: boobsrate
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/tls-acme: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: boobsrate.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: titsfrontend
+                port:
+                  number: 8000
+
+  tls:
+    - hosts:
+        - boobsrate.com
+      secretName: tls-titsfrontend-general

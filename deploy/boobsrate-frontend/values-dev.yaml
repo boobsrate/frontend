@@ -1,0 +1,24 @@
+image:
+  env:
+    - name: BACKEND_URL
+      value: "https://dev-api.rate-tits.online"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
+    external-dns.alpha.kubernetes.io/hostname: "dev.rate-tits.online"
+  hosts:
+    - host: dev.rate-tits.online
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              port:
+                number: 8000
+  tls:
+    - secretName: tls-titsfrontend-dev
+      hosts:
+        - dev.rate-tits.online

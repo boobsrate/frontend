@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "boobsrate-frontend.fullname" . }}
+  labels:
+    {{- include "boobsrate-frontend.labels" . | nindent 4 }}
+spec:
+  ports:
+    {{- range .Values.service.ports }}
+    - port: {{ .port }}
+      targetPort: {{ .targetPort }}
+      protocol: {{ .protocol }}
+      name: {{ .name }}
+    {{- end }}
+  sessionAffinity: {{ .Values.service.sessionAffinity }}
+  selector:
+    {{- include "boobsrate-frontend.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,19 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
+    external-dns.alpha.kubernetes.io/hostname: "rate-tits.online"
+  hosts:
+    - host: rate-tits.online
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              port:
+                number: 8000
+  tls:
+    - secretName: tls-titsfrontend-general
+      hosts:
+        - rate-tits.online
