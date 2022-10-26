@@ -6,9 +6,8 @@ replicaCount: 1
 
 
 image:
-  repository: registry.gitlab.com/boobsrate/frontend
+  name: ghcr.io/boobsrate/frontend:latest
   pullPolicy: Always
-  tag: ""
   env:
     - name: BACKEND_URL
       value: "https://api.rate-tits.online"
