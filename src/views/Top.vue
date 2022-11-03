@@ -10,7 +10,7 @@
 import TopComponent from "@/components/top/Top";
 
 export default {
-  name: "Compare-view",
+  name: "Top-view",
   components: {TopComponent}
 }
 </script>
