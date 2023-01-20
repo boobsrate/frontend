@@ -93,7 +93,7 @@ jobs:
           if_true: boobsrate
           if_false: boobsrate-dev
 
-      - name: Install/upgrade helm chart to Kubernetes cluster
+      - name: Install/upgrade helm chart to Kubernetes cluster 
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
         run: |
