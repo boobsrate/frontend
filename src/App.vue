@@ -81,7 +81,7 @@ export default {
 
     getConnectionToken: async function() {
       const response = await fetch("/api/get-token", {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
