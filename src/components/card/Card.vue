@@ -21,11 +21,10 @@
 
     <div class="actions container-fluid">
       <div class="report-button action container-fluid" @click="reportCard(this.card_data.id)">
-        <p class="action-text">REPORT</p>
+        <span class="action-text">REPORT</span>
       </div>
-      <div class="vl"></div>
       <div class="vote-button action container-fluid" @click="voteCard(this.card_data.id)">
-        <p class="action-text">LIKE</p>
+        <span class="action-text">LIKE</span>
       </div>
     </div>
 
@@ -103,56 +102,13 @@ export default {
 
 <style scoped>
 
-.action-button {
-  background: #4c4864;
-}
-
 .card {
-  padding: 10px;
-  margin: 10px;
+  width: 350px;
+  box-shadow: 2px 2px 5px #ccc;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   background: #303C6C;
-  width: 85%;
-}
-
-.card-image {
-  width: 100%;
-  height: 80%;
-  cursor: pointer;
-}
-
-
-.actions {
-  display: flex;
-  margin: auto;
-  align-items: center;
-  justify-content: space-around;
-  height: 10%;
-}
-
-.action {
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  width: 49%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.action:hover {
-  background: #4c4864;
-  border: solid 2px #5063b2;
-  border-radius: 4px;
-  box-shadow: 0 20px 30px rgba(0,0,0,.12), 0 6px 10px rgba(0,0,0,.06);
-}
-
-.action-text {
-  display: flex;
-  margin: auto;
-}
-
-
-.card .card-image {
-  background-position: center;
 }
 
 .card-rating {
@@ -160,10 +116,45 @@ export default {
   color: #fffc;
 }
 
-.img-thumbnail {
+.card-image {
+  height: 450px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center the text horizontally and vertically */
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
-  width: 100%;
-  object-fit: cover;
+  cursor: pointer;
+  width: 49%; /* Make buttons full width */
+  margin-bottom: 10px; /* Add margin between buttons */
+  margin-top: 10px;
+}
+
+.action-text {
+  text-align: center; /* Center text horizontally */
+  font-size: x-large;
+  font-weight: 600;
+  color: #d1d1d3;
+  font-family: "Akshar", "Andale Mono", serif;
+  margin: 0;
+}
+
+.img-thumbnail {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .full-img {
@@ -182,44 +173,20 @@ export default {
   filter: blur(20px);
 }
 
-.vl {
-  border-left: 2px solid #5063b2;
-  height: 80%;
-  -webkit-filter: blur(1px);
-  -moz-filter: blur(1px);
-  -o-filter: blur(1px);
-  -ms-filter: blur(1px);
-  filter: blur(1px);
-}
 
-.action-text {
-  font-size: xx-large;
-  font-weight: 600;
-  color: #d1d1d3;
-  font-family: "Akshar", "Andale Mono",serif;
-}
 
-@media screen and (max-width: 600px){
+/* Mobile-specific styles */
+@media only screen and (max-width: 600px) {
+  .card {
+    width: 90%; /* Reduce the width of the card */
+  }
   .action-text {
-    font-size: large;
-    font-weight: 600;
+    font-size: medium; /* Reduce font size */
+  }
+  /* Add new styles for the action button block */
+  .actions {
+    flex-direction: row; /* Stack buttons vertically */
   }
 }
-
-
-@media screen and (max-height: 400px){
-  .action-text {
-    font-size: medium;
-    font-weight: 600;
-  }
-}
-
-@media screen and (max-width: 350px){
-  .action-text {
-    font-size: medium;
-    font-weight: 600;
-  }
-}
-
 
 </style>

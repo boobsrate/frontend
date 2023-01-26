@@ -51,25 +51,24 @@ export default {
 
 <style scoped>
 
+/* CSS for the parent component */
 .cards {
   display: flex;
-  height: 100%;
-  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center; /* align the cards horizontally with equal space between them */
 }
 
 .card-wrap {
-  max-width: 50%;
-  max-height: 100%;
-  display: flex;
-  justify-content: center;
+  width: 350px;
+  margin: 10px;
 }
 
-
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 600px) {
   .card-wrap {
     max-width: 100%;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
   }
 }
 

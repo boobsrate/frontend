@@ -8,7 +8,7 @@ const routes = [
     },
     {
         path: '/top/:count',
-        component: () => import('@/views/Compare'),
+        component: () => import('@/views/Top.vue'),
         props: true,
     },
     {
