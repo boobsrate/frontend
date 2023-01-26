@@ -3,7 +3,7 @@
 
     <ImageFullscreenModal v-model="showFullscreen">
       <template v-slot:card_img>
-        <img class="full-img" id="full-img" :src="card_data.full_url" alt="NO DATA">
+        <img v-if="showFullscreen" class="full-img" id="full-img" :src="card_data.full_url" alt="NO DATA">
       </template>
     </ImageFullscreenModal>
 
@@ -13,7 +13,7 @@
 
     <div class="card-image">
       <Loader v-if="show"/>
-      <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isConfirmed.value }" :key="card_data.id"
+      <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: true }" :key="card_data.id"
            :src="card_data.url"
            @click="showFullscreen = true"
            alt="No Image">
