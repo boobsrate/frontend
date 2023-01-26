@@ -22,6 +22,7 @@ export default {
           process.env.VUE_APP_BACKEND_URL + '/auth/tg-login',
           user
       ).catch(error => (console.log(error))).then(this.closeLoginModalFun)
+      this.isAuthenticated = true
     },
   },
 

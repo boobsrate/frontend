@@ -82,11 +82,7 @@ export default {
     this.showLoginModal = false;
     this.isConfirmed = !!this.$cookies.get('isConfirmed')
     this.showConfirmModal = !this.isConfirmed
-    if (!this.$cookies.get('boobs_session')) {
-      this.isAuthenticated = false
-    } else {
-      this.isAuthenticated = true
-    }
+    this.isAuthenticated = this.$cookies.get('boobs_session');
   }
 
 
