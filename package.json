@@ -17,7 +17,8 @@
     "vue-native-websocket-vue3": "^3.1.7",
     "vue-router": "^4.1.6",
     "vue3-cookies": "^1.0.6",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "centrifuge": "^2.8.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

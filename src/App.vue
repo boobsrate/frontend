@@ -35,6 +35,7 @@ import BodyComponent from "@/components/core/Body";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import {computed} from "vue";
 import LoginModal from "@/components/modals/LoginModal";
+import Centrifuge from 'centrifuge'
 
 export default {
   name: 'App',
@@ -46,6 +47,8 @@ export default {
       showConfirmModal: null,
       isAuthenticated: null,
       showLoginModal: null,
+      centrifuge: null,
+      channel: null,
     }
   },
 
@@ -75,6 +78,17 @@ export default {
       close()
       window.location.href = 'https://murrengan.ru';
     },
+
+    getConnectionToken: async function() {
+      const response = await fetch("/api/get-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const data = await response.json();
+      return data.token;
+    },
   },
 
 
@@ -83,8 +97,19 @@ export default {
     this.isConfirmed = !!this.$cookies.get('isConfirmed')
     this.showConfirmModal = !this.isConfirmed
     this.isAuthenticated = this.$cookies.get('boobs_session');
+    this.centrifuge = new Centrifuge("wss://" + process.env.VUE_APP_WS_URL + "/connection/websocket")
+    this.centrifuge.setToken(this.getConnectionToken()) // get the connection token from your backend
+    this.centrifuge.connect()
+    this.channel = this.centrifuge.subscribe(process.env.VUE_APP_WS_CHAN, (message) => {
+      let data = JSON.parse(message.data.value);
+      if (data.type === "online_users") {
+        this.setOnline(data.message.online)
+      }
+      if (data.type === "new_rating") {
+        this.setRating(data)
+      }
+    })
   }
-
 
 }
 </script>

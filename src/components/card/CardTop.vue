@@ -18,16 +18,6 @@
            @click="showFullscreen = true"
            alt="No Image">
     </div>
-
-    <div class="actions container-fluid">
-      <div class="report-button action container-fluid" @click="reportCard(this.card_data.id)">
-        <span class="action-text">REPORT</span>
-      </div>
-      <div class="vote-button action container-fluid" @click="voteCard(this.card_data.id)">
-        <span class="action-text">LIKE</span>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -35,10 +25,9 @@
 
 import Loader from '@/components/card/Loader'
 import ImageFullscreenModal from "@/components/modals/ImageFullscreen";
-import axios from "axios";
 
 export default {
-  name: "Card-component",
+  name: "Card-Top-component",
   components: {ImageFullscreenModal, Loader},
   inject: ['isConfirmed', 'isAuthenticated', "showLoginModal", "openLoginModalFun"],
   emits: ['getCards'],
@@ -51,29 +40,6 @@ export default {
   },
 
   methods: {
-    voteCard(card_id) {
-      this.show = true
-      axios.post(
-          process.env.VUE_APP_BACKEND_URL + '/tits/' + card_id,
-          {}
-      ).catch(error => (console.log(error))).then(this.$emit('getCards'))
-    },
-
-    reportCard(card_id) {
-      console.log(this.isAuthenticated)
-      console.log(this.$cookies.get('boobs_session'))
-      if (!this.$cookies.get('boobs_session')) {
-        console.log("NOT AUTH")
-        this.openLoginModalFun()
-      } else {
-        axios.post(
-            process.env.VUE_APP_BACKEND_URL + '/tits/report/' + card_id,
-            {}
-        ).catch(error => (console.log(error))
-        ).then(this.$emit('getCards'))
-      }
-    },
-
     setRating(data) {
       if (this.card_data.id === data.message.tits_id) {
         // eslint-disable-next-line vue/no-mutating-props
@@ -81,18 +47,6 @@ export default {
       }
     },
 
-  },
-
-  mounted() {
-//    this.$options.sockets.onmessage = (event) => {
-//      let data = JSON.parse(event.data);
-//      if (data.type === "new_rating") {
-//        if (this.card_data.id === data.message.tits_id) {
-//          // eslint-disable-next-line vue/no-mutating-props
-//          this.card_data.rating = data.message.new_rating
-//        }
-//      }
-//    }
   },
 
 

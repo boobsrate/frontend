@@ -21,13 +21,13 @@ export default {
   },
 
   created() {
-    this.$options.sockets.onmessage = (event) => {
-      let data = JSON.parse(event.data);
-      console.log(data);
-      if (data.type === "online_users") {
-        this.setOnline(data.message.online)
-      }
-    }
+//    this.$options.sockets.onmessage = (event) => {
+//      let data = JSON.parse(event.data);
+//      console.log(data);
+//      if (data.type === "online_users") {
+//        this.setOnline(data.message.online)
+//      }
+//    }
   },
 
   methods: {

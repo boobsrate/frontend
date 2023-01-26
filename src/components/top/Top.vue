@@ -2,7 +2,7 @@
   <div class="cards row justify-content-center">
     <template :key="card.id" v-for="card in cards">
       <div class="card-wrap">
-        <card
+        <card-top-component
             :card_data="card"
             :show="show"
             @getCards="getCards"
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import Card from "@/components/card/Card.vue";
 import axios from "axios";
+import CardTopComponent from "@/components/card/CardTop.vue";
 
 export default {
   name: "TopComponent",
 
   components: {
-    Card
+    CardTopComponent,
   },
 
   created() {
