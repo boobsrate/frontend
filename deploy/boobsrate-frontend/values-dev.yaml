@@ -1,7 +1,7 @@
 image:
   env:
     - name: BACKEND_URL
-      value: "https://dev-api.rate-tits.online"
+      value: "https://dev.rate-tits.online"
 
 ingress:
   enabled: true

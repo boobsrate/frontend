@@ -12,7 +12,7 @@ app.use(router)
 app.use(vfmPlugin)
 app.use(VueCookies)
 
-app.use(VueNativeSock, "wss://" + process.env.VUE_APP_WS_URL + "/ws", {
+app.use(VueNativeSock, "wss://" + process.env.VUE_APP_WS_URL + "/api/ws", {
     reconnection: true,
     reconnectionDelay: 3000,
 })
