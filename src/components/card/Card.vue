@@ -60,8 +60,8 @@ export default {
     },
 
     reportCard(card_id) {
-      console.log(this.isAuthenticated.value)
-      console.log(this.$cookies)
+      console.log(this.isAuthenticated)
+      console.log(this.$cookies.get('boobs_session'))
       if (!this.$cookies.get('boobs_session')) {
         console.log("NOT AUTH")
         this.openLoginModalFun()
