@@ -80,7 +80,7 @@ export default {
       window.location.href = 'https://murrengan.ru';
     },
 
-    getConnectionToken: function() {
+    getConnectionToken: function () {
       const resp = axios.get("/api/auth/get-token", {
         method: "GET",
         headers: {
@@ -97,8 +97,13 @@ export default {
     this.isConfirmed = !!this.$cookies.get('isConfirmed')
     this.showConfirmModal = !this.isConfirmed
     this.isAuthenticated = this.$cookies.get('boobs_session');
-    this.centrifuge = new Centrifuge("wss://" + process.env.VUE_APP_WS_URL + "/connection/websocket")
-    this.centrifuge.setToken(this.getConnectionToken()) // get the connection token from your backend
+    this.centrifuge = new Centrifuge(
+        "wss://" + process.env.VUE_APP_WS_URL + "/connection/websocket", {
+          debug: true,
+        }
+    )
+    const token = this.getConnectionToken()
+    this.centrifuge.setToken(token) // get the connection token from your backend
     this.centrifuge.connect()
     this.channel = this.centrifuge.subscribe(process.env.VUE_APP_WS_CHAN, (message) => {
       let data = JSON.parse(message.data.value);
