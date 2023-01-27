@@ -36,6 +36,7 @@ import ConfirmModal from "@/components/modals/ConfirmModal";
 import {computed} from "vue";
 import LoginModal from "@/components/modals/LoginModal";
 import Centrifuge from 'centrifuge'
+import axios from "axios";
 
 export default {
   name: 'App',
@@ -80,14 +81,14 @@ export default {
     },
 
     getConnectionToken: function() {
-      const response = fetch("/api/auth/get-token", {
+      axios.get("/api/auth/get-token", {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
-      });
-      const data = response.json();
-      return data.token;
+      }).then(response => {
+        return response.token;
+      })
     },
   },
 
