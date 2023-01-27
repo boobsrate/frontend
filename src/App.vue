@@ -86,7 +86,7 @@ export default {
           "Content-Type": "application/json"
         }
       });
-      const data = await response.json();
+      const data = response.json();
       return data.token;
     },
   },
