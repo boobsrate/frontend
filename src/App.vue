@@ -106,7 +106,9 @@ export default {
     this.centrifuge.setToken(token) // get the connection token from your backend
     this.centrifuge.connect()
 
-    this.centrifuge.subscribe(process.env.VUE_APP_WS_CHAN, (message) => {
+    this.centrifuge.subscribe(process.env.VUE_APP_WS_CHAN);
+
+    this.centrifuge.on('publication', function (message) {
       let data = JSON.parse(message.data.value);
       if (data.type === "online_users") {
         this.setOnline(data.message.online)
@@ -115,8 +117,6 @@ export default {
         this.setRating(data)
       }
     })
-
-
   }
 
 }
