@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="{ blur: !isConfirmed.value }">
+  <div class="card" :class="{ blur: !isConfirmed }">
 
     <ImageFullscreenModal v-model="showFullscreen">
       <template v-slot:card_img>
@@ -13,7 +13,7 @@
 
     <div class="card-image">
       <Loader v-if="show"/>
-      <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isConfirmed.value }" :key="card_data.id"
+      <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isConfirmed }" :key="card_data.id"
            :src="card_data.url"
            @click="showFullscreen = true"
            alt="No Image">

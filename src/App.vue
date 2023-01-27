@@ -97,7 +97,7 @@ export default {
     this.isConfirmed = !!this.$cookies.get('isConfirmed')
     this.showConfirmModal = !this.isConfirmed
     this.isAuthenticated = this.$cookies.get('boobs_session');
-    this.centrifuge = new Centrifuge("ws://" + process.env.VUE_APP_WS_URL + "/connection/websocket")
+    this.centrifuge = new Centrifuge("wss://" + process.env.VUE_APP_WS_URL + "/connection/websocket")
     this.centrifuge.setToken(this.getConnectionToken()) // get the connection token from your backend
     this.centrifuge.connect()
     this.channel = this.centrifuge.subscribe(process.env.VUE_APP_WS_CHAN, (message) => {
