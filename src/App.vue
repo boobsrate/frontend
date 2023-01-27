@@ -81,14 +81,13 @@ export default {
     },
 
     getConnectionToken: function() {
-      axios.get("/api/auth/get-token", {
+      const resp = axios.get("/api/auth/get-token", {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
-      }).then(response => {
-        return response.token;
       })
+      return resp.token
     },
   },
 
