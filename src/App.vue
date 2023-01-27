@@ -79,8 +79,8 @@ export default {
       window.location.href = 'https://murrengan.ru';
     },
 
-    getConnectionToken: async function() {
-      const response = await fetch("/api/get-token", {
+    getConnectionToken: function() {
+      const response = fetch("/api/auth/get-token", {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -109,6 +109,8 @@ export default {
         this.setRating(data)
       }
     })
+
+
   }
 
 }
