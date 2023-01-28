@@ -35,8 +35,8 @@ import BodyComponent from "@/components/core/Body";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import {computed} from "vue";
 import LoginModal from "@/components/modals/LoginModal";
-import Centrifuge from 'centrifuge'
 import axios from "axios";
+import {Centrifuge} from "centrifuge";
 
 export default {
   name: 'App',
@@ -50,6 +50,8 @@ export default {
       showLoginModal: null,
       centrifuge: null,
       channel: null,
+      cToken: null,
+      sub: null,
     }
   },
 
@@ -64,6 +66,7 @@ export default {
       closeLoginModalFun: () => {
         this.showLoginModal = false;
       },
+      subBoobs: computed(() => (this.sub)),
     }
   },
 
@@ -80,43 +83,40 @@ export default {
       window.location.href = 'https://murrengan.ru';
     },
 
-    getConnectionToken: function () {
-      const resp = axios.get("/api/auth/get-token", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      return resp.token
+    async getConnectionToken() {
+      try {
+        const response = await axios.get("https://dev.rate-tits.online/api/auth/get-token");
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 
 
-  created() {
+  async created() {
     this.showLoginModal = false;
     this.isConfirmed = !!this.$cookies.get('isConfirmed')
     this.showConfirmModal = !this.isConfirmed
     this.isAuthenticated = this.$cookies.get('boobs_session');
+
+    const data = await this.getConnectionToken()
+
+    console.log(data)
     this.centrifuge = new Centrifuge(
-        "wss://" + process.env.VUE_APP_WS_URL + "/connection/websocket", {
-          debug: true,
-        }
+        "wss://" + process.env.VUE_APP_WS_URL + "/connection/websocket",
+        {debug: true, name: "front", token: data.token}
     )
-    const token = this.getConnectionToken()
-    this.centrifuge.setToken(token) // get the connection token from your backend
-    this.centrifuge.connect()
 
-    this.centrifuge.subscribe(process.env.VUE_APP_WS_CHAN);
+    this.centrifuge.on('connecting', function (ctx) {
+      console.log(`connecting: ${ctx.code}, ${ctx.reason}`);
+    }).on('connected', function (ctx) {
+      console.log(`connected over ${ctx.transport}`);
+    }).on('disconnected', function (ctx) {
+      console.log(`disconnected: ${ctx.code}, ${ctx.reason}`);
+    }).connect();
 
-    this.centrifuge.on('publication', function (message) {
-      let data = JSON.parse(message.data.value);
-      if (data.type === "online_users") {
-        this.setOnline(data.message.online)
-      }
-      if (data.type === "new_rating") {
-        this.setRating(data)
-      }
-    })
+    this.sub = this.centrifuge.newSubscription("boobs_dev", {token: data.chan_token});
   }
 
 }

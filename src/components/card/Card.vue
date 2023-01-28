@@ -40,7 +40,7 @@ import axios from "axios";
 export default {
   name: "Card-component",
   components: {ImageFullscreenModal, Loader},
-  inject: ['isConfirmed', 'isAuthenticated', "showLoginModal", "openLoginModalFun"],
+  inject: ['isConfirmed', 'isAuthenticated', "showLoginModal", "openLoginModalFun", "subBoobs"],
   emits: ['getCards'],
 
   data() {
@@ -84,6 +84,14 @@ export default {
   },
 
   mounted() {
+    this.subBoobs.on('publication', function (message) {
+      if (message.data.type === "new_rating") {
+        if (this.card_data.id === message.data.message.tits_id) {
+          // eslint-disable-next-line vue/no-mutating-props
+          this.card_data.rating = message.data.message.new_rating
+        }
+      }
+    }).subscribe();
 //    this.$options.sockets.onmessage = (event) => {
 //      let data = JSON.parse(event.data);
 //      if (data.type === "new_rating") {
