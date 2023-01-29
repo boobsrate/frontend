@@ -9,7 +9,7 @@
 
 export default {
   name: "Online-component",
-  inject: ["subBoobs"],
+  inject: ["subBoobsOnline"],
   components: {},
 
 
@@ -19,12 +19,15 @@ export default {
     }
   },
 
-  created() {
-    this.subBoobs.on('publication', function (message) {
+  mounted() {
+   this.subBoobsOnline.on('publication', function (message) {
       if (message.data.type === "online_users") {
         this.online = message.data.message.online
       }
     }).subscribe();
+  },
+
+  created() {
 
 //    this.$options.sockets.onmessage = (event) => {
 //      let data = JSON.parse(event.data);

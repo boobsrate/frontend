@@ -41,7 +41,7 @@ export default {
   name: "Card-component",
   components: {ImageFullscreenModal, Loader},
   inject: ['isConfirmed', 'isAuthenticated', "showLoginModal", "openLoginModalFun", "subBoobs"],
-  emits: ['getCards'],
+  emits: ['getCards', 'setRating'],
 
   data() {
     return {

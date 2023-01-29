@@ -67,6 +67,7 @@ export default {
         this.showLoginModal = false;
       },
       subBoobs: computed(() => (this.sub)),
+      subBoobsOnline: computed(() => (this.sub)),
     }
   },
 
