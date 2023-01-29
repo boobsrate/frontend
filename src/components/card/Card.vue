@@ -8,7 +8,7 @@
     </ImageFullscreenModal>
 
     <div class="card-rating">
-      <p>RATING: {{ card_data.rating }}</p>
+      <span class="rating-text">RATING: {{ card_data.rating }}</span>
     </div>
 
     <div class="card-image">
@@ -92,15 +92,6 @@ export default {
         }
       }
     }).subscribe();
-//    this.$options.sockets.onmessage = (event) => {
-//      let data = JSON.parse(event.data);
-//      if (data.type === "new_rating") {
-//        if (this.card_data.id === data.message.tits_id) {
-//          // eslint-disable-next-line vue/no-mutating-props
-//          this.card_data.rating = data.message.new_rating
-//        }
-//      }
-//    }
   },
 
 
@@ -128,7 +119,9 @@ export default {
 }
 
 .card-rating {
-  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center the text horizontally and vertically */
   color: #fffc;
 }
 
@@ -158,6 +151,15 @@ export default {
 }
 
 .action-text {
+  text-align: center; /* Center text horizontally */
+  font-size: x-large;
+  font-weight: 600;
+  color: #d1d1d3;
+  font-family: "Akshar", "Andale Mono", serif;
+  margin: 0;
+}
+
+.rating-text {
   text-align: center; /* Center text horizontally */
   font-size: x-large;
   font-weight: 600;

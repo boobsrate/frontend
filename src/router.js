@@ -13,7 +13,7 @@ const routes = [
     },
     {
         path: '/abyss/:count',
-        component: () => import('@/views/Compare'),
+        component: () => import('@/views/Abyss.vue'),
         props: true,
     }
 ]

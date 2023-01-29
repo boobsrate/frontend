@@ -8,7 +8,7 @@
     </ImageFullscreenModal>
 
     <div class="card-rating">
-      <p>RATING: {{ card_data.rating }}</p>
+      <span class="rating-text">RATING: {{ card_data.rating }}</span>
     </div>
 
     <div class="card-image">
@@ -74,7 +74,9 @@ export default {
 }
 
 .card-rating {
-  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center the text horizontally and vertically */
   color: #fffc;
 }
 
@@ -134,6 +136,17 @@ export default {
   -ms-filter: blur(20px);
   filter: blur(20px);
 }
+
+
+.rating-text {
+  text-align: center; /* Center text horizontally */
+  font-size: x-large;
+  font-weight: 600;
+  color: #d1d1d3;
+  font-family: "Akshar", "Andale Mono", serif;
+  margin: 0;
+}
+
 
 
 
