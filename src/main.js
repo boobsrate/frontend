@@ -4,7 +4,6 @@ import App from './App.vue'
 import router from "@/router";
 import vfmPlugin from 'vue-final-modal'
 import VueCookies from 'vue3-cookies'
-//global.WebSocket = require('ws');
 
 const app = createApp(App)
 

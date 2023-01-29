@@ -12,30 +12,29 @@ export default {
   inject: ["subBoobsOnline"],
   components: {},
 
-
   data() {
     return {
       online: 0,
     }
   },
 
-  mounted() {
-  },
-/*   this.subBoobsOnline.on('publication', function (message) {
-      if (message.data.type === "online_users") {
-        this.online = message.data.message.online
+  watch: {
+    subBoobsOnline: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal) {
+          console.log("subBoobsOnline", newVal)
+          newVal.on('publication', function (message) {
+            if (message.data.type === "online_users") {
+              this.online = message.data.message.online
+            }
+          }).subscribe();
+        }
       }
-    }).subscribe();*/
+    }
+  },
 
   created() {
-
-//    this.$options.sockets.onmessage = (event) => {
-//      let data = JSON.parse(event.data);
-//      console.log(data);
-//      if (data.type === "online_users") {
-//        this.setOnline(data.message.online)
-//      }
-//    }
   },
 
   methods: {
