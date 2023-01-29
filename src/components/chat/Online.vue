@@ -28,7 +28,7 @@ export default {
             if (message.data.type === "online_users") {
               this.online = message.data.message.online
             }
-          }).subscribe();
+          }.bind(this)).subscribe();
         }
       }
     }
