@@ -20,12 +20,12 @@ export default {
   },
 
   mounted() {
-   this.subBoobsOnline.on('publication', function (message) {
+  },
+/*   this.subBoobsOnline.on('publication', function (message) {
       if (message.data.type === "online_users") {
         this.online = message.data.message.online
       }
-    }).subscribe();
-  },
+    }).subscribe();*/
 
   created() {
 
