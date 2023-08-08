@@ -21,25 +21,28 @@ export default {
   components: {
     chat_message
   },
-
-
+export default {
+  name: "chat",
+  components: {
+    chat_message
+  },
   data() {
     return {
       online: 0,
       chat_messages: []
     }
   },
-
   methods : {
+    // Method to set the number of online users
     setOnline: function (online) {
       this.online = online;
     },
+    // Method to add a new message to the chat
     addMessage: function (message) {
       this.chat_messages.push(message);
     }
   },
-
-
+  // Listen for new messages and online user updates when the component is mounted
   mounted() {
     WS.onmessage = function (event) {
       let data = JSON.parse(event.data);
@@ -57,7 +60,7 @@ export default {
 <style scoped>
 .chat {
   border-radius: 5px;
-  height: 10vh;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 20vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 </style>
