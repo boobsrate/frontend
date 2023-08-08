@@ -49,10 +49,12 @@ export default {
     }
   },
 
+  // Fetch cards when component is created
   created() {
     this.getCards();
   },
 
+  // Listen for new ratings when the component is mounted
   mounted() {
     let self = this;
     WS.onmessage = function (event) {
@@ -64,6 +66,7 @@ export default {
   },
 
   methods: {
+    // Method to fetch cards from the API
     getCards() {
       this.show = true
       axios.get("https://tits.api.boobsrate.com/tits").then(response => {
@@ -72,6 +75,7 @@ export default {
       })
     },
 
+    // Method to vote for a card
     voteCard(card_data) {
       this.show = true
       axios.post(
@@ -91,13 +95,13 @@ export default {
 
 <style>
 .rating {
-  padding: 10px;
+  padding: 20px;
   height: 100%;
 }
 
 .card-wrap {
   width: 50%;
-  display: flex;
+  display: block;
   justify-content: center;
 }
 
