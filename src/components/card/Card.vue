@@ -19,6 +19,7 @@ export default {
   inject: ['isAuth'],
   components: {Loader},
   methods: {
+    // Method to emit vote-card event
     voteCard() {
       this.$emit('vote-card', this.card_data.id);
     }
@@ -47,16 +48,16 @@ export default {
 .card {
   padding: 10px;
   margin: 10px;
-  background: #080129;
+  background: #2B2B2B; // Adjusted based on design team feedback
   width: 85%;
   cursor: pointer;
   height: 75vh;
 }
 
-.card .card-image {
-  background-position: center;
+.btn {
+  background: #3B2894; // Adjusted based on design team feedback
+  outline-color: transparent;
 }
-
 .card-rating {
   color: #fffc;
   height: 10%;
