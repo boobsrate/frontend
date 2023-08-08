@@ -48,14 +48,14 @@ export default {
 .card {
   padding: 10px;
   margin: 10px;
-  background: #3B2894;
+  background: #2B2B2B; // Adjusted based on design team feedback
   width: 85%;
   cursor: pointer;
   height: 75vh;
 }
 
 .btn {
-  background: #080129;
+  background: #3B2894; // Adjusted based on design team feedback
   outline-color: transparent;
 }
 .card-rating {
