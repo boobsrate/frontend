@@ -60,7 +60,7 @@ export default {
 <style scoped>
 .chat {
   border-radius: 5px;
-  height: 20vh;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: 30vh; // Adjusted based on design team feedback
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); // Adjusted based on design team feedback
 }
 </style>
