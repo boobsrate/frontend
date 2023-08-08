@@ -33,16 +33,19 @@ export default {
     ConfirmModal
   },
   methods: {
+    // Method to confirm user authentication
     confirm() {
       this.$cookies.set('isAuth', true)
       this.show = false
       this.isAuth = true
     },
+    // Method to cancel user authentication and redirect to another page
     cancel(close) {
       window.location.href = 'https://murrengan.ru';
       close()
     }
   },
+  // Check if user is authenticated when component is created
   created() {
     this.isAuth = !!this.$cookies.get('isAuth')
     this.show = !this.isAuth
@@ -56,7 +59,7 @@ app {
 }
 
 html, body {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -64,7 +67,7 @@ html, body {
 
 .background {
   display: none;
-  background-color: rgba(204, 204, 204, 0.5);
+  background-color: rgba(224, 224, 224, 0.5);
   z-index: 2;
   position: fixed;
   top: -15px;
