@@ -95,13 +95,13 @@ export default {
 
 <style>
 .rating {
-  padding: 20px;
+  padding: 15px; // Adjusted based on design team feedback
   height: 100%;
 }
 
 .card-wrap {
   width: 50%;
-  display: block;
+  display: flex; // Adjusted based on design team feedback
   justify-content: center;
 }
 
