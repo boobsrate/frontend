@@ -150,6 +150,18 @@ export default {
   margin-top: 10px;
 }
 
+.action:hover {
+  background: #081d74;
+  color: #fffc;
+  border-color: #081d74;
+  transition: 0.3s;
+  /* rounded corners */
+  border-radius: 5px;
+ /* external shadow */
+  box-shadow: 0 0 0 6px #081d74;
+  /* inner shadow */
+}
+
 .action-text {
   text-align: center; /* Center text horizontally */
   font-size: x-large;
