@@ -94,6 +94,10 @@ export default {
     },
   },
 
+  mounted() {
+    document.title = "Rate Tits";
+  },
+
 
   async created() {
     this.showLoginModal = false;

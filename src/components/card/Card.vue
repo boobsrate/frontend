@@ -96,7 +96,7 @@ export default {
 
 .card {
   width: 350px;
-  box-shadow: 2px 2px 5px #ccc;
+  box-shadow: 0 0 5px #ccc;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -116,6 +116,7 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
+  box-shadow: 0 0 5px #ccc;
 }
 
 .actions {

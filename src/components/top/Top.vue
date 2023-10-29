@@ -89,4 +89,14 @@ export default {
   width: 350px;
   margin: 10px;
 }
+
+@media screen and (max-width: 600px) {
+  .card-wrap {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
 </style>

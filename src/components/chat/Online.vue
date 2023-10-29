@@ -32,6 +32,7 @@ export default {
               if (message.data.type === "online_users") {
                 console.log(message)
                 this.online = message.data.message.online
+                document.title = "Rate Tits. Online users: " + this.online
               }
             }.bind(this)).subscribe();
           }
