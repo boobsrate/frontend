@@ -1,16 +1,16 @@
 image:
   env:
     - name: BACKEND_URL
-      value: "https://dev.rate-tits.online"
+      value: "https://dev.rate-tits.akuzyashin.pw"
 
 ingress:
   enabled: true
   className: "nginx"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
-    external-dns.alpha.kubernetes.io/hostname: "dev.rate-tits.online"
+    external-dns.alpha.kubernetes.io/hostname: "dev.rate-tits.akuzyashin.pw"
   hosts:
-    - host: dev.rate-tits.online
+    - host: dev.rate-tits.akuzyashin.pw
       paths:
         - path: /
           pathType: Prefix
@@ -21,4 +21,4 @@ ingress:
   tls:
     - secretName: tls-titsfrontend-dev
       hosts:
-        - dev.rate-tits.online
+        - dev.rate-tits.akuzyashin.pw

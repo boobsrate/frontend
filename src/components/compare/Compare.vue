@@ -20,6 +20,9 @@ import axios from "axios";
 export default {
   name: "Compare-component",
 
+  inject: ["subBoobs"],
+
+
   components: {
     Card
   },
@@ -43,8 +46,42 @@ export default {
         this.show = false
       })
     },
-  }
 
+    setRatingCompare(data) {
+      console.log("catch set_rating event", data)
+      // loop cards
+      this.cards.forEach((card) => {
+            if (card.id === data.message.tits_id) {
+              card.rating = data.message.new_rating
+            }
+          }
+      )
+    },
+  },
+
+  mounted() {
+    this.$watch(
+        () => this.subBoobs,
+        (val) => {
+          if (val) {
+            console.log("subBoobs is not null. subscribing to new_rating")
+            this.subBoobs.on('publication', function (message) {
+              console.log(message)
+              if (message.data.type === "new_rating") {
+                console.log(message)
+                this.cards.forEach((card) => {
+                      if (card.id === message.data.message.tits_id) {
+                        console.log("update card")
+                        card.rating = message.data.message.new_rating
+                      }
+                    }
+                )
+              }
+            }.bind(this)).subscribe();
+          }
+        },
+    )
+  }
 
 }
 </script>

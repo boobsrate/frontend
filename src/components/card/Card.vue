@@ -41,7 +41,7 @@ export default {
   name: "Card-component",
   components: {ImageFullscreenModal, Loader},
   inject: ['isConfirmed', 'isAuthenticated', "showLoginModal", "openLoginModalFun", "subBoobs"],
-  emits: ['getCards', 'setRating'],
+  emits: ['getCards'],
 
   data() {
     return {
@@ -74,24 +74,9 @@ export default {
       }
     },
 
-    setRating(data) {
-      if (this.card_data.id === data.message.tits_id) {
-        // eslint-disable-next-line vue/no-mutating-props
-        this.card_data.rating = data.message.new_rating
-      }
-    },
-
   },
 
   mounted() {
-    this.subBoobs.on('publication', function (message) {
-      if (message.data.type === "new_rating") {
-        if (this.card_data.id === message.data.message.tits_id) {
-          // eslint-disable-next-line vue/no-mutating-props
-          this.card_data.rating = message.data.message.new_rating
-        }
-      }
-    }).subscribe();
   },
 
 
@@ -111,7 +96,7 @@ export default {
 
 .card {
   width: 350px;
-  box-shadow: 2px 2px 5px #ccc;
+  box-shadow: 0 0 5px #ccc;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -131,6 +116,7 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
+  box-shadow: 0 0 5px #ccc;
 }
 
 .actions {
@@ -148,6 +134,18 @@ export default {
   width: 49%; /* Make buttons full width */
   margin-bottom: 10px; /* Add margin between buttons */
   margin-top: 10px;
+}
+
+.action:hover {
+  background: #081d74;
+  color: #fffc;
+  border-color: #081d74;
+  transition: 0.3s;
+  /* rounded corners */
+  border-radius: 5px;
+ /* external shadow */
+  box-shadow: 0 0 0 6px #081d74;
+  /* inner shadow */
 }
 
 .action-text {
