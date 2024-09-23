@@ -81,7 +81,7 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
         run: |
-          helm upgrade boobsrate-frontend ./deploy/boobsrate-frontend \
+          helm3 upgrade boobsrate-frontend ./deploy/boobsrate-frontend \
             --wait \
             --install \
             -f ./deploy/boobsrate-frontend/${{steps.form_values_file.outputs.value}} \
