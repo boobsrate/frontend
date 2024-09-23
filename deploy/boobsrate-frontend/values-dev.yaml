@@ -1,16 +1,16 @@
 image:
   env:
     - name: BACKEND_URL
-      value: "https://dev.rate-tits.akuzyashin.pw"
+      value: "https://dev.boobsrate.ru"
 
 ingress:
   enabled: true
   className: "nginx"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
-    external-dns.alpha.kubernetes.io/hostname: "dev.rate-tits.akuzyashin.pw"
+    external-dns.alpha.kubernetes.io/hostname: "dev.boobsrate.ru"
   hosts:
-    - host: dev.rate-tits.akuzyashin.pw
+    - host: dev.boobsrate.ru
       paths:
         - path: /
           pathType: Prefix
@@ -21,4 +21,4 @@ ingress:
   tls:
     - secretName: tls-titsfrontend-dev
       hosts:
-        - dev.rate-tits.akuzyashin.pw
+        - dev.boobsrate.ru

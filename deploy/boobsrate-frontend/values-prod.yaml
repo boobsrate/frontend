@@ -3,9 +3,9 @@ ingress:
   className: "nginx"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
-    external-dns.alpha.kubernetes.io/hostname: "rate-tits.online"
+    external-dns.alpha.kubernetes.io/hostname: "boobsrate.ru"
   hosts:
-    - host: rate-tits.online
+    - host: boobsrate.ru
       paths:
         - path: /
           pathType: Prefix
@@ -14,6 +14,6 @@ ingress:
               port:
                 number: 8000
   tls:
-    - secretName: tls-titsfrontend-general
+    - secretName: tls-titsfrontend-prod
       hosts:
-        - rate-tits.online
+        - boobsrate.ru
