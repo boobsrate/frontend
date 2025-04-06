@@ -10,7 +10,7 @@ image:
   pullPolicy: Always
   env:
     - name: BACKEND_URL
-      value: "https://api.rate-tits.online"
+      value: "https://api.boobsrate.com"
 
 imagePullSecrets: [
   {name: "dockerconfigjson-github-com"}

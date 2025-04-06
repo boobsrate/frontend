@@ -86,7 +86,7 @@ export default {
 
     async getConnectionToken() {
       try {
-        const response = await axios.get("https://dev.rate-tits.online/api/auth/get-token");
+        const response = await axios.get("https://dev.boobsrate.com/api/auth/get-token");
         return response.data;
       } catch (error) {
         console.error(error);
