@@ -18,6 +18,7 @@ import CardTopComponent from "@/components/card/CardTop.vue";
 
 export default {
   name: "TopComponent",
+  inject: ['subBoobs'],
 
   components: {
     CardTopComponent,
@@ -38,6 +39,30 @@ export default {
     '$route': function(to) {
       this.getCards(to.params.top)
     }
+  },
+
+  mounted() {
+    this.$watch(
+        () => this.subBoobs,
+        (val) => {
+          if (val) {
+            console.log("subBoobs is not null. subscribing to new_rating")
+            this.subBoobs.on('publication', function (message) {
+              console.log(message)
+              if (message.data.type === "new_rating") {
+                console.log(message)
+                this.cards.forEach((card) => {
+                      if (card.id === message.data.message.tits_id) {
+                        console.log("update card")
+                        card.rating = message.data.message.new_rating
+                      }
+                    }
+                )
+              }
+            }.bind(this)).subscribe();
+          }
+        },
+    )
   },
 
   methods: {
@@ -64,4 +89,14 @@ export default {
   width: 350px;
   margin: 10px;
 }
+
+@media screen and (max-width: 600px) {
+  .card-wrap {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
 </style>

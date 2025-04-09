@@ -18,23 +18,26 @@ export default {
     }
   },
 
-  watch: {
-    subBoobsOnline: {
-      immediate: true,
-      handler(newVal) {
-        if (newVal) {
-          console.log("subBoobsOnline", newVal)
-          newVal.on('publication', function (message) {
-            if (message.data.type === "online_users") {
-              this.online = message.data.message.online
-            }
-          }.bind(this)).subscribe();
-        }
-      }
-    }
-  },
+  watch: {},
 
-  created() {
+  mounted() {
+    // wait until subBoobsOnline is not null
+    this.$watch(
+        () => this.subBoobsOnline,
+        (val) => {
+          if (val) {
+            console.log("subBoobsOnline is not null. subscribing to online_users")
+            this.subBoobsOnline.on('publication', function (message) {
+              console.log(message)
+              if (message.data.type === "online_users") {
+                console.log(message)
+                this.online = message.data.message.online
+                document.title = "Rate Tits. Online users: " + this.online
+              }
+            }.bind(this)).subscribe();
+          }
+        },
+    )
   },
 
   methods: {

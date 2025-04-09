@@ -40,13 +40,6 @@ export default {
   },
 
   methods: {
-    setRating(data) {
-      if (this.card_data.id === data.message.tits_id) {
-        // eslint-disable-next-line vue/no-mutating-props
-        this.card_data.rating = data.message.new_rating
-      }
-    },
-
   },
 
 
