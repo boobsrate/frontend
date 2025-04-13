@@ -3,7 +3,7 @@
 
     <ImageFullscreenModal v-model="showFullscreen">
       <template v-slot:card_img>
-        <img v-if="showFullscreen" class="full-img" id="full-img" :src="card_data.full_url" alt="NO DATA">
+        <img v-if="showFullscreen" class="full-img" id="full-img" :src="getImageUrl(card_data.full_url, true)" alt="NO DATA">
       </template>
     </ImageFullscreenModal>
 
@@ -14,7 +14,7 @@
     <div class="card-image">
       <Loader v-if="show"/>
       <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isConfirmed }" :key="card_data.id"
-           :src="card_data.url"
+           :src="getImageUrl(card_data.url)"
            @click="showFullscreen = true"
            alt="No Image">
     </div>
@@ -36,6 +36,7 @@
 import Loader from '@/components/card/Loader'
 import ImageFullscreenModal from "@/components/modals/ImageFullscreen";
 import axios from "axios";
+import CensorshipService from "@/services/CensorshipService";
 
 export default {
   name: "Card-component",
@@ -51,6 +52,16 @@ export default {
   },
 
   methods: {
+    /**
+     * Получает URL изображения с учетом настроек цензуры
+     * @param {string} originalUrl - оригинальный URL изображения
+     * @param {boolean} isFullImage - флаг, указывающий, является ли изображение полноразмерным
+     * @returns {string} URL изображения с учетом цензуры
+     */
+    getImageUrl(originalUrl, isFullImage = false) {
+      return CensorshipService.getImageUrl(originalUrl, isFullImage);
+    },
+
     voteCard(card_id) {
       this.show = true
       axios.post(

@@ -35,11 +35,11 @@ jobs:
         run: npm install
 
       - name: Build NPM project master
-        if: steps.extract_branch.outputs.branch == 'master'
+        if: steps.extract_branch.outputs.branch == 'main'
         run: npm run build
 
       - name: Build NPM project dev
-        if: steps.extract_branch.outputs.branch != 'master'
+        if: steps.extract_branch.outputs.branch != 'main'
         run: npm run build-dev
 
       - name: Generate Docker metadata
@@ -51,7 +51,7 @@ jobs:
           tags: |
             type=sha
           flavor: |
-            latest=${{ steps.extract_branch.outputs.branch == 'master' }}
+            latest=${{ steps.extract_branch.outputs.branch == 'main' }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
@@ -65,7 +65,7 @@ jobs:
         id: form_values_file
         uses: haya14busa/action-cond@v1
         with:
-          cond: ${{ steps.extract_branch.outputs.branch == 'master' }}
+          cond: ${{ steps.extract_branch.outputs.branch == 'main' }}
           if_true: values-prod.yaml
           if_false: values-dev.yaml
 
@@ -73,7 +73,7 @@ jobs:
         id: form_namespace
         uses: haya14busa/action-cond@v1
         with:
-          cond: ${{ steps.extract_branch.outputs.branch == 'master' }}
+          cond: ${{ steps.extract_branch.outputs.branch == 'main' }}
           if_true: boobsrate
           if_false: boobsrate-dev
 

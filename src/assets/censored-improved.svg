@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="350px" height="450px" viewBox="0 0 350 450" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2D283E;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#303C6C;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="url(#bgGradient)" x="0" y="0" width="350" height="450"/>
+        
+        <!-- Murrengan Logo -->
+        <g transform="translate(125, 150)">
+            <circle cx="50" cy="50" r="50" fill="#46344E" />
+            <text font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#d1d1d3" text-anchor="middle" x="50" y="55">
+                MURRENGAN
+            </text>
+        </g>
+        
+        <!-- Censored Text -->
+        <g transform="translate(0, 270)">
+            <rect x="0" y="0" width="350" height="40" fill="#46344E" opacity="0.8"/>
+            <text font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#d1d1d3" text-anchor="middle" x="175" y="28">
+                CENSORED
+            </text>
+        </g>
+        
+        <!-- Info Text -->
+        <text font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#d1d1d3" text-anchor="middle" x="175" y="330">
+            Content hidden by Murrengan
+        </text>
+        <text font-family="Arial, sans-serif" font-size="12" font-weight="normal" fill="#d1d1d3" text-anchor="middle" x="175" y="350">
+            Remove '?murr_censorship=true' from URL to view
+        </text>
+    </g>
+</svg>
