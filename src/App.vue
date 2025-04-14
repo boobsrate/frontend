@@ -128,7 +128,7 @@ export default {
 
       try {
         const response = await axios.post(
-            process.env.VUE_APP_BACKEND_URL + '/api/chat/messages',
+            process.env.VUE_APP_BACKEND_URL + '/chat/messages',
             { text: messageText.trim() },
             { withCredentials: true }
         );
