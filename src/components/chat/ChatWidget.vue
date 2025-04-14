@@ -159,6 +159,12 @@ onMounted(() => {
   bottom: 20px;
   right: 20px;
   z-index: 1050; /* Убедитесь, что z-index выше других элементов, например, модалок */
+
+  /* Адаптивные стили для мобильных устройств */
+  @media (max-width: 768px) {
+    bottom: 15px;
+    right: 15px;
+  }
 }
 
 .chat-toggle-button {
@@ -174,6 +180,12 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s ease;
+
+  /* Адаптивные стили для мобильных устройств */
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
 }
 
 .chat-toggle-button:hover {
@@ -232,6 +244,17 @@ onMounted(() => {
   bottom: 70px; /* Выше кнопки */
   right: 0;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000; /* Чтобы чат был поверх других элементов */
+
+  /* Адаптивные стили для мобильных устройств */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+    position: fixed;
+  }
 }
 
 .chat-header {
@@ -243,6 +266,12 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  /* Адаптивные стили для мобильных устройств */
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 14px;
+  }
 }
 
 .close-button {
@@ -317,6 +346,12 @@ onMounted(() => {
   padding: 15px;
   background-color: #40444b; /* Фон поля ввода */
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  /* Адаптивные стили для мобильных устройств */
+  @media (max-width: 768px) {
+    padding: 10px;
+    flex-wrap: wrap; /* Позволяет переносить элементы на новую строку при необходимости */
+  }
 }
 
 .chat-input input {

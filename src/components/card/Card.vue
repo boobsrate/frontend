@@ -198,17 +198,49 @@ export default {
 
 
 
-/* Mobile-specific styles */
+/* Styles for narrow screens (both mobile and desktop) */
 @media only screen and (max-width: 600px) {
   .card {
     width: 90%; /* Reduce the width of the card */
   }
+
   .action-text {
     font-size: medium; /* Reduce font size */
   }
+
   /* Add new styles for the action button block */
   .actions {
     flex-direction: row; /* Stack buttons vertically */
+  }
+
+  /* Улучшенный hover-эффект для узких экранов с поддержкой hover */
+  .action:hover {
+    background: #081d74;
+    color: #fffc;
+    border-color: #081d74;
+    border-radius: 5px;
+    box-shadow: 0 0 0 3px #081d74; /* Уменьшенная тень */
+    transform: none; /* Без трансформации */
+  }
+
+  /* Стили для активного состояния (при нажатии) */
+  .action:active {
+    background: #081d74;
+    color: #fffc;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Специальные стили только для сенсорных устройств */
+@media (hover: none) and (max-width: 600px) {
+  /* Полностью отключаем hover-эффект на сенсорных устройствах */
+  .action:hover {
+    background: transparent;
+    color: inherit;
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
   }
 }
 
