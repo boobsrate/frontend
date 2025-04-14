@@ -53,7 +53,6 @@
 import { ref, watch, nextTick, onMounted, inject } from 'vue';
 
 // Внедряем состояние и метод отправки из App.vue
-const sub = inject('subBoobsOnline');
 const chatMessages = inject('chatMessages');
 const chatError = inject('chatError');
 const sendChatMessage = inject('sendChatMessage');
