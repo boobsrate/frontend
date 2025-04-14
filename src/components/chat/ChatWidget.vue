@@ -2,11 +2,18 @@
   <div class="chat-widget-container">
     <!-- Кнопка открытия/закрытия чата -->
     <button @click="toggleChat" class="chat-toggle-button">
-      <!-- Можно добавить индикатор новых сообщений -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
-        <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-      </svg>
-      <span v-if="!isChatOpen" style="margin-left: 5px;">Chat</span>
+      <div class="chat-button-content">
+        <!-- Иконка чата -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+          <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        </svg>
+
+        <!-- Текст кнопки -->
+        <span v-if="!isChatOpen" style="margin-left: 5px;">Chat</span>
+
+        <!-- Счетчик непрочитанных сообщений -->
+        <span v-if="unreadCount > 0" class="unread-badge">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
+      </div>
     </button>
 
     <!-- Окно чата -->
@@ -53,12 +60,7 @@
           <div class="login-prompt">
             <span>Для отправки сообщений необходимо авторизоваться</span>
           </div>
-          <button @click="openLoginModal" class="login-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
-              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"/>
-            </svg>
-            Войти через Telegram
-          </button>
+          <TelegramLoginButton @login-click="handleLoginClick" />
         </template>
       </div>
     </div>
@@ -67,20 +69,27 @@
 
 <script setup>
 import { ref, watch, nextTick, onMounted, inject } from 'vue';
+import TelegramLoginButton from '@/components/chat/TelegramLoginButton.vue';
+const openLoginModalFun = inject('openLoginModalFun');
 
 // Внедряем состояние и методы из App.vue
 const chatMessages = inject('chatMessages');
 const chatError = inject('chatError');
 const sendChatMessage = inject('sendChatMessage');
 const isAuthenticated = inject('isAuthenticated');
-const openLoginModalFun = inject('openLoginModalFun');
 
 const isChatOpen = ref(false);
 const newMessage = ref('');
 const messagesContainer = ref(null);
+const unreadCount = ref(0); // Счетчик непрочитанных сообщений
 
 const toggleChat = () => {
   isChatOpen.value = !isChatOpen.value;
+
+  // Сбрасываем счетчик непрочитанных сообщений при открытии чата
+  if (isChatOpen.value) {
+    unreadCount.value = 0;
+  }
 };
 
 const closeChat = () => {
@@ -103,9 +112,15 @@ const handleSendMessage = () => {
   }
 };
 
-// Открывает модальное окно авторизации через Telegram
-const openLoginModal = () => {
-  openLoginModalFun();
+// Обработчик клика по кнопке входа через Telegram
+const handleLoginClick = () => {
+  // Сначала закрываем чат
+  isChatOpen.value = false;
+
+  // Затем с небольшой задержкой открываем модальное окно авторизации
+  setTimeout(() => {
+    openLoginModalFun();
+  }, 300); // Задержка для плавности перехода
 };
 
 // Следим за открытием чата, чтобы прокрутить вниз
@@ -116,9 +131,16 @@ watch(isChatOpen, (newVal) => {
 });
 
 // Следим за новыми сообщениями (из App.vue) и прокручиваем вниз
-watch(() => chatMessages.length, () => {
-  if (isChatOpen.value) {
+watch(() => chatMessages.length, (newLength, oldLength) => {
+  // Если добавились новые сообщения
+  if (newLength > oldLength) {
+    // Если чат открыт, прокручиваем вниз
+    if (isChatOpen.value) {
       scrollToBottom();
+    } else {
+      // Если чат закрыт, увеличиваем счетчик непрочитанных сообщений
+      unreadCount.value += (newLength - oldLength);
+    }
   }
 });
 
@@ -158,8 +180,46 @@ onMounted(() => {
   background-color: #4752C4;
 }
 
+.chat-button-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unread-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #ff4b4b; /* Ярко-красный цвет для привлечения внимания */
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .chat-window {
-  width: 370px; /* Чуть шире */
+  width: 650px; /* Чуть шире */
   height: 550px; /* Чуть выше */
   background-color: #36393f; /* Темный фон */
   color: #dcddde; /* Светлый текст */
@@ -201,7 +261,7 @@ onMounted(() => {
 .chat-messages {
   flex-grow: 1;
   overflow-y: auto;
-  padding: 10px 15px;
+  padding: 5px 10px;
   background-color: #36393f;
 }
 
@@ -218,8 +278,8 @@ onMounted(() => {
 }
 
 .message {
-  margin-bottom: 12px;
-  padding: 8px 10px;
+  margin-bottom: 6px;
+  padding: 4px 5px;
   background-color: transparent; /* Убираем фон отдельного сообщения */
   border-radius: 5px;
   word-wrap: break-word;
@@ -228,7 +288,7 @@ onMounted(() => {
 }
 
 .message-sender {
-    font-weight: 500; /* Немного жирнее */
+    font-weight: 700; /* Немного жирнее */
     margin-right: 8px;
     color: #ffffff; /* Имя пользователя белым */
     flex-shrink: 0; /* Не сжимать имя */
@@ -307,30 +367,4 @@ onMounted(() => {
   justify-content: center;
   font-size: 14px;
 }
-
-/* Стили для кнопки логина */
-.login-button {
-  padding: 10px 15px;
-  background-color: #0088cc; /* Цвет Telegram */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.login-button:hover {
-  background-color: #0077b5;
-}
-
-.login-button svg {
-  flex-shrink: 0;
-}
-
-
-
 </style>
