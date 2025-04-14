@@ -197,14 +197,16 @@ export default {
     // Обработчик событий для получения сообщений чата
     this.chatSub.on('publication', (ctx) => {
       const message = ctx.data;
-      if (message && (message.text || message.sender)) {
+      console.log('TO message to chatMessages:', message);
+      if (message && (message.message.text || message.message.sender)) {
         // Добавляем сообщение в массив сообщений чата
         const newMessage = {
-          id: Date.now() + Math.random().toString(36).substr(2, 9), // генерируем уникальный ID
-          sender: message.sender || 'System',
-          text: message.text || '',
-          timestamp: message.timestamp || new Date().toISOString()
+          id: message.message_id, // генерируем уникальный ID
+          sender: message.message.sender || 'System',
+          text: message.message.text || '',
+          timestamp: new Date().toISOString()
         };
+        console.log('Added message to chatMessages:', newMessage);
         this.chatMessages.push(newMessage);
       }
     });
