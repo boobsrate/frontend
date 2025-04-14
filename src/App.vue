@@ -87,7 +87,7 @@ export default {
       },
       subBoobs: computed(() => (this.sub)),
       subBoobsOnline: computed(() => (this.sub)),
-      chatMessages: computed(() => this.chatMessages),
+      chatMessages: this.chatMessages,
       chatError: computed(() => this.chatError),
       sendChatMessage: this.sendChatMessageViaApi,
     }
@@ -154,6 +154,16 @@ export default {
 
   mounted() {
     document.title = "Rate Tits";
+
+    // Добавляем приветственное сообщение в чат
+    setTimeout(() => {
+      this.chatMessages.push({
+        id: Date.now() + Math.random().toString(36).substr(2, 9),
+        sender: 'System',
+        text: 'Добро пожаловать в чат!',
+        timestamp: new Date().toISOString()
+      });
+    }, 2000);
   },
 
 
@@ -180,30 +190,31 @@ export default {
     }).connect();
 
     this.sub = this.centrifuge.newSubscription(process.env.VUE_APP_WS_CHAN, {token: data.chan_token});
-    
+
     // Подписка на канал чата
     this.chatSub = this.centrifuge.newSubscription(this.chatChannelName, {token: data.chat_token});
-    
+
     // Обработчик событий для получения сообщений чата
     this.chatSub.on('publication', (ctx) => {
       const message = ctx.data;
       if (message && (message.text || message.sender)) {
         // Добавляем сообщение в массив сообщений чата
-        this.chatMessages.push({
+        const newMessage = {
           id: Date.now() + Math.random().toString(36).substr(2, 9), // генерируем уникальный ID
           sender: message.sender || 'System',
           text: message.text || '',
           timestamp: message.timestamp || new Date().toISOString()
-        });
+        };
+        this.chatMessages.push(newMessage);
       }
     });
-    
+
     // Обработчик ошибок подписки на чат
     this.chatSub.on('error', (ctx) => {
       console.error('Chat subscription error:', ctx);
       this.chatError = 'Ошибка подключения к чату: ' + (ctx.message || 'Неизвестная ошибка');
     });
-    
+
     // Активируем подписку на чат
     this.chatSub.subscribe();
   }

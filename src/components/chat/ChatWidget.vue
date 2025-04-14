@@ -116,11 +116,11 @@ watch(isChatOpen, (newVal) => {
 });
 
 // Следим за новыми сообщениями (из App.vue) и прокручиваем вниз
-watch(chatMessages, () => {
+watch(() => chatMessages.length, () => {
   if (isChatOpen.value) {
       scrollToBottom();
   }
-}, { deep: true });
+});
 
 // Прокрутка при первой загрузке, если чат открыт
 onMounted(() => {
@@ -330,5 +330,7 @@ onMounted(() => {
 .login-button svg {
   flex-shrink: 0;
 }
+
+
 
 </style>
