@@ -34,16 +34,32 @@
 
       <!-- Поле ввода -->
       <div class="chat-input">
-        <input
-          type="text"
-          v-model="newMessage"
-          @keyup.enter="handleSendMessage"
-          placeholder="Type a message..."
-          :disabled="!!chatError || !isAuthenticated" 
-        />
-        <button @click="handleSendMessage" :disabled="!!chatError || !newMessage.trim() || !isAuthenticated">
-          Send
-        </button>
+        <!-- Показываем поле ввода, если пользователь авторизован -->
+        <template v-if="isAuthenticated">
+          <input
+            type="text"
+            v-model="newMessage"
+            @keyup.enter="handleSendMessage"
+            placeholder="Type a message..."
+            :disabled="!!chatError"
+          />
+          <button @click="handleSendMessage" :disabled="!!chatError || !newMessage.trim()">
+            Send
+          </button>
+        </template>
+
+        <!-- Показываем сообщение и кнопку логина, если пользователь не авторизован -->
+        <template v-else>
+          <div class="login-prompt">
+            <span>Для отправки сообщений необходимо авторизоваться</span>
+          </div>
+          <button @click="openLoginModal" class="login-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"/>
+            </svg>
+            Войти через Telegram
+          </button>
+        </template>
       </div>
     </div>
   </div>
@@ -52,11 +68,12 @@
 <script setup>
 import { ref, watch, nextTick, onMounted, inject } from 'vue';
 
-// Внедряем состояние и метод отправки из App.vue
+// Внедряем состояние и методы из App.vue
 const chatMessages = inject('chatMessages');
 const chatError = inject('chatError');
 const sendChatMessage = inject('sendChatMessage');
 const isAuthenticated = inject('isAuthenticated');
+const openLoginModalFun = inject('openLoginModalFun');
 
 const isChatOpen = ref(false);
 const newMessage = ref('');
@@ -84,6 +101,11 @@ const handleSendMessage = () => {
     newMessage.value = '';
     // Не нужно прокручивать здесь, watch на chatMessages сделает это
   }
+};
+
+// Открывает модальное окно авторизации через Telegram
+const openLoginModal = () => {
+  openLoginModalFun();
 };
 
 // Следим за открытием чата, чтобы прокрутить вниз
@@ -272,4 +294,41 @@ onMounted(() => {
   opacity: 0.5;
 }
 
-</style> 
+/* Стили для сообщения о необходимости авторизации */
+.login-prompt {
+  flex-grow: 1;
+  padding: 10px;
+  background-color: #484c52;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #dcddde;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* Стили для кнопки логина */
+.login-button {
+  padding: 10px 15px;
+  background-color: #0088cc; /* Цвет Telegram */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-button:hover {
+  background-color: #0077b5;
+}
+
+.login-button svg {
+  flex-shrink: 0;
+}
+
+</style>
