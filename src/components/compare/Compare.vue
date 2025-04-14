@@ -2,7 +2,12 @@
   <div class="cards row justify-content-center">
     <template :key="card.id" v-for="card in cards">
       <div class="card-wrap">
-        <card
+        <card v-if="!isCensored"
+            :card_data="card"
+            :show="show"
+            @getCards="getCards"
+        />
+        <censored-card v-else
             :card_data="card"
             :show="show"
             @getCards="getCards"
@@ -15,7 +20,9 @@
 <script>
 
 import Card from "@/components/card/Card";
+import CensoredCard from "@/components/card/CensoredCard";
 import axios from "axios";
+import CensorshipService from "@/services/CensorshipService";
 
 export default {
   name: "Compare-component",
@@ -24,7 +31,18 @@ export default {
 
 
   components: {
-    Card
+    Card,
+    CensoredCard
+  },
+
+  computed: {
+    /**
+     * Проверяет, активирован ли режим цензуры
+     * @returns {boolean} true, если режим цензуры активирован
+     */
+    isCensored() {
+      return CensorshipService.isCensorshipEnabled();
+    }
   },
 
   created() {

@@ -37,6 +37,7 @@ import {computed} from "vue";
 import LoginModal from "@/components/modals/LoginModal";
 import axios from "axios";
 import {Centrifuge} from "centrifuge";
+import CensorshipService from "@/services/CensorshipService";
 
 export default {
   name: 'App',
@@ -52,6 +53,16 @@ export default {
       channel: null,
       cToken: null,
       sub: null,
+    }
+  },
+
+  computed: {
+    /**
+     * Проверяет, активирован ли режим цензуры
+     * @returns {boolean} true, если режим цензуры активирован
+     */
+    checkCensorshipMode() {
+      return CensorshipService.isCensorshipEnabled();
     }
   },
 
@@ -156,6 +167,42 @@ html, body {
 
 .body-component {
   justify-content: center;
+}
+
+/* Стили для баннера цензуры */
+.censorship-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #46344E;
+  color: #d1d1d3;
+  z-index: 9999;
+  padding: 5px 0;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.censorship-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.disable-censorship-link {
+  color: #d1d1d3;
+  text-decoration: underline;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #303C6C;
+  transition: background-color 0.3s ease;
+}
+
+.disable-censorship-link:hover {
+  background-color: #081d74;
+  color: white;
 }
 
 </style>

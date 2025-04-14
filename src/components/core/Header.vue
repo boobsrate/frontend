@@ -1,16 +1,16 @@
 <template>
   <nav class="navbar navbar-expand-xl fixed-top navbar-dark">
-    <a class="navbar-brand" href="/">( . )( . ) BoobsRate ( . )( . )</a>
+    <a class="navbar-brand" :href="getRouteWithCensorship('/')">( . )( . ) BoobsRate ( . )( . )</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="left-nav navbar-nav">
-        <router-link :to="'/'" class="nav-link">Main</router-link>
-        <router-link :to="'/top/25'" class="nav-link">Top 25</router-link>
-        <router-link :to="'/top/100'" class="nav-link">Top 100</router-link>
-        <router-link :to="'/abyss/100'" class="nav-link">Abyss</router-link>
+        <router-link :to="getRouteWithCensorship('/')" class="nav-link">Main</router-link>
+        <router-link :to="getRouteWithCensorship('/top/25')" class="nav-link">Top 25</router-link>
+        <router-link :to="getRouteWithCensorship('/top/100')" class="nav-link">Top 100</router-link>
+        <router-link :to="getRouteWithCensorship('/abyss/100')" class="nav-link">Abyss</router-link>
       </div>
       <div class="dropdown-divider"></div>
       <div class="online-nav navbar-nav">
@@ -30,10 +30,41 @@
 
 <script>
 import OnlineComponent from "@/components/chat/Online";
+import CensorshipService from "@/services/CensorshipService";
 
 export default {
   name: "Header-component",
   components: {OnlineComponent},
+
+  data() {
+    return {
+      isCensorshipMode: CensorshipService.isCensorshipEnabled(),
+    }
+  },
+
+
+  methods: {
+    /**
+     * Формирует URL с сохранением параметра цензуры
+     * @param {string} path - путь для перехода
+     * @returns {object|string} объект для router-link или строка для href
+     */
+    getRouteWithCensorship(path) {
+      // Проверяем, активирован ли режим цензуры
+      const isCensored = CensorshipService.isCensorshipEnabled();
+
+      // Если режим цензуры не активирован, возвращаем обычный путь
+      if (!isCensored) {
+        return path;
+      }
+
+      // Для router-link нужно вернуть объект с параметрами
+      return {
+        path: path,
+        query: { murr_censorship: 'true' }
+      };
+    }
+  }
 }
 </script>
 

@@ -1,9 +1,8 @@
 <template>
-  <div class="card" :class="{ blur: !isConfirmed }">
-
+  <div class="card">
     <ImageFullscreenModal v-model="showFullscreen">
       <template v-slot:card_img>
-        <img v-if="showFullscreen" class="full-img" id="full-img" :src="card_data.full_url" alt="NO DATA">
+        <img v-if="showFullscreen" class="full-img" id="full-img" :src="getCensoredImageUrl(true)" alt="CENSORED">
       </template>
     </ImageFullscreenModal>
 
@@ -13,21 +12,20 @@
 
     <div class="card-image">
       <Loader v-if="show"/>
-      <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isConfirmed }" :key="card_data.id"
-           :src="card_data.url"
-           @click="openFullscreen()"
-           alt="No Image">
+      <img v-if="!show" class="img-thumbnail bg-dark border-0" :key="card_data.id"
+           :src="getCensoredImageUrl()"
+           @click="showFullscreen = true"
+           alt="CENSORED">
     </div>
   </div>
 </template>
 
 <script>
-
 import Loader from '@/components/card/Loader'
 import ImageFullscreenModal from "@/components/modals/ImageFullscreen";
 
 export default {
-  name: "Card-Top-component",
+  name: "CensoredCardTop-component",
   components: {ImageFullscreenModal, Loader},
   inject: ['isConfirmed', 'isAuthenticated', "showLoginModal", "openLoginModalFun"],
   emits: ['getCards'],
@@ -41,13 +39,13 @@ export default {
 
   methods: {
     /**
-     * Открывает полноэкранный режим
+     * Возвращает URL цензурированного изображения
+     * @returns {string} URL цензурированного изображения
      */
-    openFullscreen() {
-      this.showFullscreen = true;
+    getCensoredImageUrl() {
+      return require('@/assets/censored-improved.svg');
     },
   },
-
 
   props: {
     card_data: {
@@ -62,7 +60,6 @@ export default {
 </script>
 
 <style scoped>
-
 .card {
   width: 350px;
   box-shadow: 2px 2px 5px #ccc;
@@ -87,32 +84,6 @@ export default {
   position: relative;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: center; /* center the text horizontally and vertically */
-}
-
-.action {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  cursor: pointer;
-  width: 49%; /* Make buttons full width */
-  margin-bottom: 10px; /* Add margin between buttons */
-  margin-top: 10px;
-}
-
-.action-text {
-  text-align: center; /* Center text horizontally */
-  font-size: x-large;
-  font-weight: 600;
-  color: #d1d1d3;
-  font-family: "Akshar", "Andale Mono", serif;
-  margin: 0;
-}
-
 .img-thumbnail {
   position: absolute;
   top: 50%;
@@ -128,15 +99,6 @@ export default {
   max-height: 80vh;
 }
 
-.blur {
-  -webkit-filter: blur(20px);
-  -moz-filter: blur(20px);
-  -o-filter: blur(20px);
-  -ms-filter: blur(20px);
-  filter: blur(20px);
-}
-
-
 .rating-text {
   text-align: center; /* Center text horizontally */
   font-size: x-large;
@@ -145,9 +107,6 @@ export default {
   font-family: "Akshar", "Andale Mono", serif;
   margin: 0;
 }
-
-
-
 
 /* Mobile-specific styles */
 @media only screen and (max-width: 600px) {
@@ -162,5 +121,4 @@ export default {
     flex-direction: row; /* Stack buttons vertically */
   }
 }
-
 </style>

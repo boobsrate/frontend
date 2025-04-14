@@ -2,7 +2,12 @@
   <div class="cards row justify-content-center">
     <template :key="card.id" v-for="card in cards">
       <div class="card-wrap">
-        <card-top-component
+        <card-top-component v-if="!isCensored"
+            :card_data="card"
+            :show="show"
+            @getCards="getCards"
+        />
+        <censored-card-top v-else
             :card_data="card"
             :show="show"
             @getCards="getCards"
@@ -15,12 +20,25 @@
 <script>
 import axios from "axios";
 import CardTopComponent from "@/components/card/CardTop.vue";
+import CensoredCardTop from "@/components/card/CensoredCardTop.vue";
+import CensorshipService from "@/services/CensorshipService";
 
 export default {
   name: "AbyssComponent",
 
   components: {
     CardTopComponent,
+    CensoredCardTop,
+  },
+
+  computed: {
+    /**
+     * Проверяет, активирован ли режим цензуры
+     * @returns {boolean} true, если режим цензуры активирован
+     */
+    isCensored() {
+      return CensorshipService.isCensorshipEnabled();
+    }
   },
 
   created() {
