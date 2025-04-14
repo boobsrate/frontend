@@ -179,7 +179,7 @@ export default {
       console.log(`disconnected: ${ctx.code}, ${ctx.reason}`);
     }).connect();
 
-    this.sub = this.centrifuge.newSubscription(process.env.VUE_APP_WS_CHAN, {token: data.chat_token});
+    this.sub = this.centrifuge.newSubscription(process.env.VUE_APP_WS_CHAN, {token: data.chan_token});
     
     // Подписка на канал чата
     this.chatSub = this.centrifuge.newSubscription(this.chatChannelName, {token: data.chat_token});
