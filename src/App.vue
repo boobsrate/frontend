@@ -26,6 +26,9 @@
     </div>
 
   </div>
+
+  <!-- Виджет чата (отображается всегда, но ввод ограничен) -->
+  <ChatWidget />
 </template>
 
 <script>
@@ -33,15 +36,16 @@
 import HeaderComponent from "@/components/core/Header";
 import BodyComponent from "@/components/core/Body";
 import ConfirmModal from "@/components/modals/ConfirmModal";
-import {computed} from "vue";
+import {computed, reactive} from "vue";
 import LoginModal from "@/components/modals/LoginModal";
 import axios from "axios";
 import {Centrifuge} from "centrifuge";
 import CensorshipService from "@/services/CensorshipService";
+import ChatWidget from "@/components/chat/ChatWidget.vue";
 
 export default {
   name: 'App',
-  components: {LoginModal, ConfirmModal, BodyComponent, HeaderComponent},
+  components: {LoginModal, ConfirmModal, BodyComponent, HeaderComponent, ChatWidget},
 
   data() {
     return {
@@ -53,6 +57,10 @@ export default {
       channel: null,
       cToken: null,
       sub: null,
+      chatChannelName: "chat_global",
+      chatSub: null,
+      chatMessages: reactive([]),
+      chatError: null,
     }
   },
 
@@ -79,6 +87,9 @@ export default {
       },
       subBoobs: computed(() => (this.sub)),
       subBoobsOnline: computed(() => (this.sub)),
+      chatMessages: this.chatMessages,
+      chatError: computed(() => this.chatError),
+      sendChatMessage: this.sendChatMessageViaApi,
     }
   },
 
@@ -97,16 +108,62 @@ export default {
 
     async getConnectionToken() {
       try {
-        const response = await axios.get("https://dev.boobsrate.com/api/auth/get-token");
+        const response = await axios.get(process.env.VUE_APP_BACKEND_URL + "/auth/get-token");
         return response.data;
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    async sendChatMessageViaApi(messageText) {
+      if (!messageText || !messageText.trim()) return;
+
+      if (!this.isAuthenticated) {
+        console.warn("User is not authenticated. Cannot send chat message.");
+        this.chatError = "You must be logged in to send messages.";
+        return;
+      }
+
+      this.chatError = null;
+
+      try {
+        const response = await axios.post(
+            process.env.VUE_APP_BACKEND_URL + '/chat/messages',
+            { text: messageText.trim() },
+            { withCredentials: true }
+        );
+
+        if (response.status === 200 || response.status === 201) {
+          console.log('Chat message sent via API');
+        } else {
+          const errorMsg = response.data?.message || response.statusText || "Server error";
+          this.chatError = `Failed to send message: ${errorMsg}`;
+          console.error("Failed to send chat message via API:", response);
+        }
+      } catch (error) {
+        console.error("Error sending chat message via API:", error);
+        if (error.response) {
+          const errorMsg = error.response.data?.message || error.response.statusText || "Server error";
+          this.chatError = `Failed to send message: ${errorMsg}`;
+        } else {
+          this.chatError = "Failed to send message: Network error or server unavailable.";
+        }
       }
     },
   },
 
   mounted() {
     document.title = "Rate Tits";
+
+    // Добавляем приветственное сообщение в чат
+    setTimeout(() => {
+      this.chatMessages.push({
+        id: Date.now() + Math.random().toString(36).substr(2, 9),
+        sender: 'System',
+        text: 'Добро пожаловать в чат!',
+        timestamp: new Date().toISOString()
+      });
+    }, 2000);
   },
 
 
@@ -132,7 +189,36 @@ export default {
       console.log(`disconnected: ${ctx.code}, ${ctx.reason}`);
     }).connect();
 
-    this.sub = this.centrifuge.newSubscription("boobs_dev", {token: data.chan_token});
+    this.sub = this.centrifuge.newSubscription(process.env.VUE_APP_WS_CHAN, {token: data.chan_token});
+
+    // Подписка на канал чата
+    this.chatSub = this.centrifuge.newSubscription(this.chatChannelName, {token: data.chat_token});
+
+    // Обработчик событий для получения сообщений чата
+    this.chatSub.on('publication', (ctx) => {
+      const message = ctx.data;
+      console.log('TO message to chatMessages:', message);
+      if (message && (message.message.text || message.message.sender)) {
+        // Добавляем сообщение в массив сообщений чата
+        const newMessage = {
+          id: message.message_id, // генерируем уникальный ID
+          sender: message.message.sender || 'System',
+          text: message.message.text || '',
+          timestamp: new Date().toISOString()
+        };
+        console.log('Added message to chatMessages:', newMessage);
+        this.chatMessages.push(newMessage);
+      }
+    });
+
+    // Обработчик ошибок подписки на чат
+    this.chatSub.on('error', (ctx) => {
+      console.error('Chat subscription error:', ctx);
+      this.chatError = 'Ошибка подключения к чату: ' + (ctx.message || 'Неизвестная ошибка');
+    });
+
+    // Активируем подписку на чат
+    this.chatSub.subscribe();
   }
 
 }

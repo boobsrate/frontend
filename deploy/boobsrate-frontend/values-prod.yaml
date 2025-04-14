@@ -4,6 +4,11 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
     external-dns.alpha.kubernetes.io/hostname: "boobsrate.com"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0";
+      add_header Pragma "no-cache";
+      add_header X-Accel-Expires "0";
+      expires off;
   hosts:
     - host: boobsrate.com
       paths:
