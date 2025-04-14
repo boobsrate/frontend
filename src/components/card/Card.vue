@@ -198,14 +198,16 @@ export default {
 
 
 
-/* Mobile-specific styles */
+/* Styles for narrow screens (both mobile and desktop) */
 @media only screen and (max-width: 600px) {
   .card {
     width: 90%; /* Reduce the width of the card */
   }
+
   .action-text {
     font-size: medium; /* Reduce font size */
   }
+
   /* Add new styles for the action button block */
   .actions {
     flex-direction: row; /* Stack buttons vertically */
