@@ -1,9 +1,8 @@
 <template>
-  <div class="card" :class="{ blur: !isConfirmed }">
-
+  <div class="card">
     <ImageFullscreenModal v-model="showFullscreen">
       <template v-slot:card_img>
-        <img v-if="showFullscreen" class="full-img" id="full-img" :src="card_data.full_url" alt="NO DATA">
+        <img v-if="showFullscreen" class="full-img" id="full-img" :src="getCensoredImageUrl(true)" alt="CENSORED">
       </template>
     </ImageFullscreenModal>
 
@@ -13,32 +12,30 @@
 
     <div class="card-image">
       <Loader v-if="show"/>
-      <img v-if="!show" class="img-thumbnail bg-dark border-0" :class="{ blur: !isConfirmed }" :key="card_data.id"
-           :src="card_data.url"
-           @click="openFullscreen()"
-           alt="No Image">
+      <img v-if="!show" class="img-thumbnail bg-dark border-0" :key="card_data.id"
+           :src="getCensoredImageUrl()"
+           @click="showFullscreen = true"
+           alt="CENSORED">
     </div>
 
     <div class="actions container-fluid">
-      <div class="report-button action container-fluid" @click="reportCard(this.card_data.id)">
+      <div class="report-button action container-fluid" @click="reportCard(card_data.id)">
         <span class="action-text">REPORT</span>
       </div>
-      <div class="vote-button action container-fluid" @click="voteCard(this.card_data.id)">
+      <div class="vote-button action container-fluid" @click="voteCard(card_data.id)">
         <span class="action-text">LIKE</span>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-
 import Loader from '@/components/card/Loader'
 import ImageFullscreenModal from "@/components/modals/ImageFullscreen";
 import axios from "axios";
 
 export default {
-  name: "Card-component",
+  name: "CensoredCard-component",
   components: {ImageFullscreenModal, Loader},
   inject: ['isConfirmed', 'isAuthenticated', "showLoginModal", "openLoginModalFun", "subBoobs"],
   emits: ['getCards'],
@@ -52,10 +49,11 @@ export default {
 
   methods: {
     /**
-     * Открывает полноэкранный режим
+     * Возвращает URL цензурированного изображения
+     * @returns {string} URL цензурированного изображения
      */
-    openFullscreen() {
-      this.showFullscreen = true;
+    getCensoredImageUrl() {
+      return require('@/assets/censored-improved.svg');
     },
 
     voteCard(card_id) {
@@ -80,12 +78,7 @@ export default {
         ).then(this.$emit('getCards'))
       }
     },
-
   },
-
-  mounted() {
-  },
-
 
   props: {
     card_data: {
@@ -100,7 +93,6 @@ export default {
 </script>
 
 <style scoped>
-
 .card {
   width: 350px;
   box-shadow: 0 0 5px #ccc;
@@ -124,6 +116,7 @@ export default {
   align-items: center;
   position: relative;
   box-shadow: 0 0 5px #ccc;
+  cursor: pointer;
 }
 
 .actions {
@@ -188,16 +181,6 @@ export default {
   max-height: 80vh;
 }
 
-.blur {
-  -webkit-filter: blur(20px);
-  -moz-filter: blur(20px);
-  -o-filter: blur(20px);
-  -ms-filter: blur(20px);
-  filter: blur(20px);
-}
-
-
-
 /* Mobile-specific styles */
 @media only screen and (max-width: 600px) {
   .card {
@@ -211,5 +194,4 @@ export default {
     flex-direction: row; /* Stack buttons vertically */
   }
 }
-
 </style>

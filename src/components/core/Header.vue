@@ -36,6 +36,13 @@ export default {
   name: "Header-component",
   components: {OnlineComponent},
 
+  data() {
+    return {
+      isCensorshipMode: CensorshipService.isCensorshipEnabled(),
+    }
+  },
+
+
   methods: {
     /**
      * Формирует URL с сохранением параметра цензуры

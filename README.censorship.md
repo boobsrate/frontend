@@ -33,32 +33,64 @@ https://boobsrate.com/top/25?murr_censorship=true
 
 1. `src/services/CensorshipService.js` - сервис для проверки режима цензуры
 2. `src/assets/censored-improved.svg` - изображение-заглушка для цензуры
-3. `src/components/card/Card.vue` - модифицирован для поддержки цензуры
-4. `src/components/card/CardTop.vue` - модифицирован для поддержки цензуры
-5. `src/App.vue` - добавлен баннер цензуры и метод для отключения цензуры
-6. `src/components/core/Header.vue` - модифицирован для сохранения параметра цензуры при навигации
+3. `src/components/card/CensoredCard.vue` - компонент для отображения цензурированных карточек на главной странице
+4. `src/components/card/CensoredCardTop.vue` - компонент для отображения цензурированных карточек в Top и Abyss
+5. `src/components/compare/Compare.vue` - модифицирован для использования цензурированных карточек
+6. `src/components/top/Top.vue` - модифицирован для использования цензурированных карточек
+7. `src/components/abyss/Abyss.vue` - модифицирован для использования цензурированных карточек
+8. `src/App.vue` - добавлен баннер цензуры и метод для отключения цензуры
+9. `src/components/core/Header.vue` - модифицирован для сохранения параметра цензуры при навигации
+10. `src/components/modals/ImageFullscreen.vue` - модифицирован для добавления индикатора загрузки
 
 ### Как добавить поддержку цензуры в новые компоненты
 
-Если вы создаете новый компонент, который отображает изображения, добавьте в него следующий код:
+Если вы создаете новый компонент, который отображает изображения, рекомендуется создать два компонента:
 
-1. Импортируйте сервис цензуры:
+1. Обычный компонент для отображения изображений в обычном режиме
+2. Цензурированный компонент для отображения заглушек в режиме цензуры
+
+Затем в родительском компоненте используйте условный рендеринг для выбора нужного компонента:
+
 ```javascript
+// Импортируйте компоненты и сервис цензуры
+import NormalComponent from "@/components/NormalComponent";
+import CensoredComponent from "@/components/CensoredComponent";
 import CensorshipService from "@/services/CensorshipService";
-```
 
-2. Добавьте метод для получения URL изображения:
-```javascript
-methods: {
-  getImageUrl(originalUrl, isFullImage = false) {
-    return CensorshipService.getImageUrl(originalUrl, isFullImage);
+export default {
+  components: {
+    NormalComponent,
+    CensoredComponent
+  },
+
+  computed: {
+    // Проверяет, активирован ли режим цензуры
+    isCensored() {
+      return CensorshipService.isCensorshipEnabled();
+    }
   }
 }
 ```
 
-3. Используйте этот метод при отображении изображений:
 ```html
-<img :src="getImageUrl(card_data.url)" alt="Image">
+<!-- Используйте условный рендеринг для выбора компонента -->
+<normal-component v-if="!isCensored" :data="data" />
+<censored-component v-else :data="data" />
+```
+
+Для создания цензурированного компонента можно использовать следующий код:
+
+```javascript
+methods: {
+  /**
+   * Возвращает URL цензурированного изображения
+   * @param {boolean} isFullImage - флаг, указывающий, является ли изображение полноразмерным
+   * @returns {string} URL цензурированного изображения
+   */
+  getCensoredImageUrl(isFullImage = false) {
+    return require('@/assets/censored-improved.svg');
+  }
+}
 ```
 
 ## Возможные улучшения

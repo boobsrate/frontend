@@ -12,13 +12,6 @@
   </div>
 
   <div class="container-fluid root-container">
-    <!-- Индикатор цензуры -->
-    <div v-if="isCensorshipMode" class="censorship-banner">
-      <div class="censorship-text">
-        <span>Режим цензуры активирован</span>
-        <a @click.prevent="disableCensorship" href="#" class="disable-censorship-link">Отключить</a>
-      </div>
-    </div>
 
     <div class="row header-component container-fluid">
       <HeaderComponent>
@@ -60,7 +53,6 @@ export default {
       channel: null,
       cToken: null,
       sub: null,
-      isCensorshipMode: false,
     }
   },
 
@@ -92,18 +84,6 @@ export default {
 
 
   methods: {
-    /**
-     * Отключает режим цензуры
-     */
-    disableCensorship() {
-      // Удаляем параметр murr_censorship из URL
-      const url = new URL(window.location.href);
-      url.searchParams.delete('murr_censorship');
-
-      // Переходим на новый URL без параметра цензуры
-      window.location.href = url.toString();
-    },
-
     confirm(close) {
       this.$cookies.set('isConfirmed', true)
       this.showConfirmModal = false
@@ -127,8 +107,6 @@ export default {
 
   mounted() {
     document.title = "Rate Tits";
-    // Проверяем режим цензуры
-    this.isCensorshipMode = this.checkCensorshipMode();
   },
 
 
